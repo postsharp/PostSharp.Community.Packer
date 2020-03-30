@@ -11,8 +11,7 @@ using PostSharp.Sdk.Extensibility.Tasks;
 
 namespace PostSharp.Community.JustOneExe.Weaver
 {
-    // TODO change "Transform" to "CustomTransform" when it starts working
-    [ExportTask(Phase = TaskPhase.Transform, TaskName = nameof(JustOneExeTask))] 
+    [ExportTask(Phase = TaskPhase.CustomTransform, TaskName = nameof(JustOneExeTask))] 
      public partial class JustOneExeTask : Task
      {
          [ImportService]
@@ -29,12 +28,15 @@ namespace PostSharp.Community.JustOneExe.Weaver
                 config = Configuration.Read(annotations.Current);
             }
 
-            var manifest = this.Project.Module.AssemblyManifest;
+            // Find gatherable assemblies:
+            string[] paths = this.Project.Properties["ReferenceCopyLocalPaths"]?.Split('|') ?? new string[0];
+            
+            this.manifest = this.Project.Module.AssemblyManifest;
             
             FindMsCoreReferences();
             FixResourceCase(manifest);
             ProcessNativeResources(manifest, !config.DisableCompression);
-            EmbedResources(config);
+            EmbedResources(config, paths);
 
             // CalculateHash();
             // ImportAssemblyLoader(config.CreateTemporaryAssemblies);

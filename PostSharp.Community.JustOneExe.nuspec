@@ -17,7 +17,7 @@
     <dependencies>
       <group targetFramework=".NETStandard2.0">
 		<!-- PostSharp respects semantic versioning, so it is safe to add a dependency up to the next major version, but not included. -->
-        <dependency id="PostSharp" version="[6.6.1-preview,7.0)" />
+        <dependency id="PostSharp" version="[6.6.3-preview,7.0)" />
       </group>
     </dependencies>
   </metadata>

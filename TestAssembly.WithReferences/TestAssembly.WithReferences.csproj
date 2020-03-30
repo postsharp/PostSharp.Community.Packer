@@ -1,6 +1,6 @@
-﻿﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="..\packages\PostSharp.6.6.2-preview\build\PostSharp.props" Condition="Exists('..\packages\PostSharp.6.6.2-preview\build\PostSharp.props')" />
+    <Import Project="..\packages\PostSharp.6.6.3-preview\build\PostSharp.props" Condition="Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.props')" />
     <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,8 +14,9 @@
         <FileAlignment>512</FileAlignment>
         <PostSharpSearchPath>..\PostSharp.Community.JustOneExe.Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
         <PostSharpHost>Native</PostSharpHost>
-        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>
+<!--        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>-->
     </PropertyGroup>
+    <Import Project="..\BuildProcess\PostSharp.Community.JustOneExe.targets" />
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
@@ -40,8 +41,8 @@
           <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="PostSharp, Version=6.6.2.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
-          <HintPath>..\packages\PostSharp.Redist.6.6.2-preview\lib\net45\PostSharp.dll</HintPath>
+        <Reference Include="PostSharp, Version=6.6.3.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
+          <HintPath>..\packages\PostSharp.Redist.6.6.3-preview\lib\net45\PostSharp.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="Soothsilver.Random, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
@@ -71,8 +72,8 @@
       <PropertyGroup>
         <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
       </PropertyGroup>
-      <Error Condition="!Exists('..\packages\PostSharp.6.6.2-preview\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.6.2-preview\build\PostSharp.props'))" />
-      <Error Condition="!Exists('..\packages\PostSharp.6.6.2-preview\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.6.2-preview\build\PostSharp.targets'))" />
+      <Error Condition="!Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.6.3-preview\build\PostSharp.props'))" />
+      <Error Condition="!Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets'))" />
     </Target>
-    <Import Project="..\packages\PostSharp.6.6.2-preview\build\PostSharp.targets" Condition="Exists('..\packages\PostSharp.6.6.2-preview\build\PostSharp.targets')" />
+    <Import Project="..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets" Condition="Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets')" />
 </Project>

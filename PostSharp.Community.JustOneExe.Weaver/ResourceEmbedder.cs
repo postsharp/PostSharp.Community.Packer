@@ -13,18 +13,16 @@ namespace PostSharp.Community.JustOneExe.Weaver
         string cachePath;
         private AssemblyManifestDeclaration manifest;
 
-        void EmbedResources(JustOneExeAttribute config)
+        void EmbedResources(JustOneExeAttribute config, string[] referenceCopyLocalPaths)
         {
-            // if (ReferenceCopyLocalPaths == null)
-            // {
-            //     throw new Exception("ReferenceCopyLocalPaths is required you may need to update to the latest version of Fody.");
-            // }
+          
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             cachePath = tempDirectory; //  Path.Combine(Path.GetDirectoryName(AssemblyFilePath), "Costura");
             Directory.CreateDirectory(cachePath);
 
-            var onlyBinaries = new string[0];//ReferenceCopyLocalPaths.Where(x => x.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)).ToArray();
+            var onlyBinaries = referenceCopyLocalPaths.Where(x => x.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) 
+                                                                  || x.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)).ToArray();
 
             var disableCompression = config.DisableCompression;
             var createTemporaryAssemblies = config.CreateTemporaryAssemblies;
