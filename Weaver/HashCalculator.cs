@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using PostSharp.Sdk.CodeModel;
 
-namespace PostSharp.Community.JustOneExe.Weaver
+namespace PostSharp.Community.Packer.Weaver
 {
     partial class JustOneExeTask
     {

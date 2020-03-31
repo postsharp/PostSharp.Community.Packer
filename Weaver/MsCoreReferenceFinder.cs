@@ -1,4 +1,4 @@
-﻿namespace PostSharp.Community.JustOneExe.Weaver
+﻿namespace PostSharp.Community.Packer.Weaver
 {
     partial class JustOneExeTask
     {

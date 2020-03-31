@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using PostSharp.Community.Packer;
 using PostSharp.Extensibility;
 using PostSharp.Reflection;
 using PostSharp.Sdk.CodeModel;
@@ -9,9 +10,9 @@ using PostSharp.Sdk.Extensibility;
 using PostSharp.Sdk.Extensibility.Configuration;
 using PostSharp.Sdk.Extensibility.Tasks;
 
-namespace PostSharp.Community.JustOneExe.Weaver
+namespace PostSharp.Community.Packer.Weaver
 {
-    [ExportTask(Phase = TaskPhase.CustomTransform, TaskName = nameof(JustOneExeTask))] 
+    [ExportTask(Phase = TaskPhase.CustomTransform, TaskName = nameof(Packer.Weaver.JustOneExeTask))] 
      public partial class JustOneExeTask : Task
      {
          [ImportService]
@@ -21,8 +22,8 @@ namespace PostSharp.Community.JustOneExe.Weaver
         {
             // Find configuration:
             var annotations =
-                annotationsService.GetAnnotationsOfType(typeof(JustOneExeAttribute), false, true);
-            JustOneExeAttribute config = new JustOneExeAttribute();
+                annotationsService.GetAnnotationsOfType(typeof(Packer.PackerAttribute), false, true);
+            Packer.PackerAttribute config = new Packer.PackerAttribute();
             if (annotations.MoveNext())
             {
                 config = Configuration.Read(annotations.Current);
@@ -39,8 +40,8 @@ namespace PostSharp.Community.JustOneExe.Weaver
             EmbedResources(config, paths);
 
             // CalculateHash();
-            // ImportAssemblyLoader(config.CreateTemporaryAssemblies);
-            // CallAttach(config);
+            ImportAssemblyLoader(config.CreateTemporaryAssemblies);
+            CallAttach(config);
             //
             // AddChecksumsToTemplate();
             // BuildUpNameDictionary(config.CreateTemporaryAssemblies, config.PreloadOrder);

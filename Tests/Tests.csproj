@@ -6,7 +6,7 @@
         <!-- Normally, PostSharp searches for weaver assemblies in the tools directories of NuGet packages. But, since we're
         using the weaver directly instead of using it in a NuGet package here, we must add the weaver to the PostSharp
         search path manually: -->
-        <PostSharpSearchPath>..\PostSharp.Community.JustOneExe.Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
+        <PostSharpSearchPath>..\Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
         <RootNamespace>PostSharp.Community.JustOneExe.Tests</RootNamespace>
     </PropertyGroup>
 
@@ -20,8 +20,8 @@
     <ItemGroup>
       <!-- We don't actually need to reference the weaver here, but we need the weaver assembly to exist in the folder
       on the PostSharp search path before our build, so this project reference ensures that the weaver builds before this project: -->
-      <ProjectReference Include="..\PostSharp.Community.JustOneExe.Weaver\PostSharp.Community.JustOneExe.Weaver.csproj" />
-      <ProjectReference Include="..\PostSharp.Community.JustOneExe\PostSharp.Community.JustOneExe.csproj" />
+      <ProjectReference Include="..\Client\Client.csproj" />
+      <ProjectReference Include="..\Weaver\Weaver.csproj" />
       <!-- We need the attribute: -->
     </ItemGroup>
 

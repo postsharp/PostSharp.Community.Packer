@@ -1,10 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 using PostSharp.Community.JustOneExe;
+using PostSharp.Community.Packer;
 using Soothsilver.Random;
 using Xunit;
 
-[assembly: JustOneExe]
+[assembly: Packer]
 
 namespace TestAssembly.WithReferences
 {

@@ -12,11 +12,11 @@
         <AssemblyName>TestAssembly.WithReferences</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <PostSharpSearchPath>..\PostSharp.Community.JustOneExe.Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
+        <PostSharpSearchPath>..\Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
         <PostSharpHost>Native</PostSharpHost>
 <!--        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>-->
     </PropertyGroup>
-    <Import Project="..\BuildProcess\PostSharp.Community.JustOneExe.targets" />
+    <Import Project="..\BuildProcess\PostSharp.Community.Packer.targets" />
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
@@ -64,8 +64,14 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
-        <ProjectReference Include="..\PostSharp.Community.JustOneExe.Weaver\PostSharp.Community.JustOneExe.Weaver.csproj" />
-        <ProjectReference Include="..\PostSharp.Community.JustOneExe\PostSharp.Community.JustOneExe.csproj" />
+      <ProjectReference Include="..\Client\Client.csproj">
+        <Project>{b7b0ce10-c0a4-4d53-8caf-1bd3875a915e}</Project>
+        <Name>Client</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\Weaver\Weaver.csproj">
+        <Project>{e7c4ca26-f0fc-4fd8-b6ac-a996c5635c61}</Project>
+        <Name>Weaver</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

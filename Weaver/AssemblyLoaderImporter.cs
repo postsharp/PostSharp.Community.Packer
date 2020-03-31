@@ -2,7 +2,7 @@
 using System.Reflection;
 using PostSharp.Sdk.CodeModel;
 
-namespace PostSharp.Community.JustOneExe.Weaver
+namespace PostSharp.Community.Packer.Weaver
 {
     partial class JustOneExeTask
     {
@@ -20,48 +20,39 @@ namespace PostSharp.Community.JustOneExe.Weaver
         // FieldDefinition preload64ListField;
         FieldDefDeclaration checksumsField;
         //
-        // void ImportAssemblyLoader(bool createTemporaryAssemblies)
-        // {
-        //     var readerParameters = new ReaderParameters
-        //     {
-        //         AssemblyResolver = AssemblyResolver,
-        //         ReadSymbols = true,
-        //         SymbolReaderProvider = new PdbReaderProvider(),
-        //         SymbolStream = GetType().Assembly.GetManifestResourceStream("Costura.Template.pdb"),
-        //     };
-        //
-        //     using (var resourceStream = GetType().Assembly.GetManifestResourceStream("Costura.Template.dll"))
-        //     {
-        //         var moduleDefinition = ModuleDefinition.ReadModule(resourceStream, readerParameters);
-        //
-        //         if (createTemporaryAssemblies)
-        //         {
-        //             sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplateWithTempAssembly");
-        //             DumpSource("ILTemplateWithTempAssembly");
-        //         }
-        //         else if (hasUnmanaged)
-        //         {
-        //             sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplateWithUnmanagedHandler");
-        //             DumpSource("ILTemplateWithUnmanagedHandler");
-        //         }
-        //         else
-        //         {
-        //             sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplate");
-        //             DumpSource("ILTemplate");
-        //         }
-        //         commonType = moduleDefinition.Types.Single(x => x.Name == "Common");
-        //         DumpSource("Common");
-        //
-        //         targetType = new TypeDefinition("Costura", "AssemblyLoader", sourceType.Attributes, Resolve(sourceType.BaseType));
-        //         targetType.CustomAttributes.Add(new CustomAttribute(compilerGeneratedAttributeCtor));
-        //         ModuleDefinition.Types.Add(targetType);
-        //         CopyFields(sourceType);
-        //         CopyMethod(sourceType.Methods.Single(x => x.Name == "ResolveAssembly"));
-        //
-        //         loaderCctor = CopyMethod(sourceType.Methods.Single(x => x.IsConstructor && x.IsStatic));
-        //         attachMethod = CopyMethod(sourceType.Methods.Single(x => x.Name == "Attach"));
-        //     }
-        // }
+        void ImportAssemblyLoader(bool createTemporaryAssemblies)
+        {
+        
+                // var moduleDefinition = this.Project.Module.GetSystemModule()
+                //
+                // if (createTemporaryAssemblies)
+                // {
+                //     sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplateWithTempAssembly");
+                // }
+                // else if (hasUnmanaged)
+                // {
+                //     sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplateWithUnmanagedHandler");
+                // }
+                // else
+                // {
+                //     sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplate");
+                // }
+                //
+                // commonType = moduleDefinition.Types.Single(x => x.Name == "Common");
+                // DumpSource("Common");
+                //
+                // targetType = new TypeDefinition("Costura", "AssemblyLoader", sourceType.Attributes,
+                //     Resolve(sourceType.BaseType));
+                // targetType.CustomAttributes.Add(new CustomAttribute(compilerGeneratedAttributeCtor));
+                // ModuleDefinition.Types.Add(targetType);
+                // CopyFields(sourceType);
+                // CopyMethod(sourceType.Methods.Single(x => x.Name == "ResolveAssembly"));
+                //
+                // loaderCctor = CopyMethod(sourceType.Methods.Single(x => x.IsConstructor && x.IsStatic));
+                // attachMethod = CopyMethod(sourceType.Methods.Single(x => x.Name == "Attach"));
+            
+        }
+
         //
         // void DumpSource(string file)
         // {

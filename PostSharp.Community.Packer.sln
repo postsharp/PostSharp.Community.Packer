@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostSharp.Community.JustOneExe.Weaver", "PostSharp.Community.JustOneExe.Weaver\PostSharp.Community.JustOneExe.Weaver.csproj", "{E7C4CA26-F0FC-4FD8-B6AC-A996C5635C61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weaver", "Weaver\Weaver.csproj", "{E7C4CA26-F0FC-4FD8-B6AC-A996C5635C61}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostSharp.Community.JustOneExe.Tests", "PostSharp.Community.JustOneExe.Tests\PostSharp.Community.JustOneExe.Tests.csproj", "{F50CA89A-7A52-4934-B3FC-2FFB69813421}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{F50CA89A-7A52-4934-B3FC-2FFB69813421}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6F4F1FC-63DF-4B04-A521-EEE2C58F6A66}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.md = LICENSE.md
-		PostSharp.Community.JustOneExe.nuspec = PostSharp.Community.JustOneExe.nuspec
+		PostSharp.Community.Packer.nuspec = PostSharp.Community.Packer.nuspec
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssembly.WithReferences", "TestAssembly.WithReferences\TestAssembly.WithReferences.csproj", "{CC83242C-6A58-4338-9BC3-C2C3D83C888A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostSharp.Community.JustOneExe", "PostSharp.Community.JustOneExe\PostSharp.Community.JustOneExe.csproj", "{B7B0CE10-C0A4-4D53-8CAF-1BD3875A915E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{B7B0CE10-C0A4-4D53-8CAF-1BD3875A915E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +36,8 @@ Global
 		{CC83242C-6A58-4338-9BC3-C2C3D83C888A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC83242C-6A58-4338-9BC3-C2C3D83C888A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC83242C-6A58-4338-9BC3-C2C3D83C888A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7B0CE10-C0A4-4D53-8CAF-1BD3875A915E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7B0CE10-C0A4-4D53-8CAF-1BD3875A915E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

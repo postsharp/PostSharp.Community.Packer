@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using PostSharp.Community.Packer;
 using PostSharp.Sdk.CodeModel;
 
-namespace PostSharp.Community.JustOneExe.Weaver
+namespace PostSharp.Community.Packer.Weaver
 {
     partial class JustOneExeTask : IDisposable
     {
@@ -13,7 +14,7 @@ namespace PostSharp.Community.JustOneExe.Weaver
         string cachePath;
         private AssemblyManifestDeclaration manifest;
 
-        void EmbedResources(JustOneExeAttribute config, string[] referenceCopyLocalPaths)
+        void EmbedResources(Packer.PackerAttribute config, string[] referenceCopyLocalPaths)
         {
           
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
@@ -98,7 +99,7 @@ namespace PostSharp.Community.JustOneExe.Weaver
             return matchText.Equals(assemblyName, StringComparison.OrdinalIgnoreCase);
         }
 
-        IEnumerable<string> GetFilteredReferences(IEnumerable<string> onlyBinaries, JustOneExeAttribute config)
+        IEnumerable<string> GetFilteredReferences(IEnumerable<string> onlyBinaries, Packer.PackerAttribute config)
         {
             if (config.IncludeAssemblies.Any())
             {

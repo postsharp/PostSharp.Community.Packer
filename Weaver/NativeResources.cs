@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using PostSharp.Sdk.CodeModel;
 
-namespace PostSharp.Community.JustOneExe.Weaver
+namespace PostSharp.Community.Packer.Weaver
 {
     partial class JustOneExeTask
     {

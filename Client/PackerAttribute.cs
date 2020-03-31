@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using PostSharp.Extensibility;
 
-namespace PostSharp.Community.JustOneExe
+namespace PostSharp.Community.Packer
 {
     
    
@@ -11,8 +10,8 @@ namespace PostSharp.Community.JustOneExe
     /// your main output assembly.
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly)]
-    [RequirePostSharp("PostSharp.Community.JustOneExe.Weaver", "JustOneExeTask")]
-    public class JustOneExeAttribute : Attribute
+    [RequirePostSharp("PostSharp.Community.Packer.Weaver", "JustOneExeTask")]
+    public class PackerAttribute : Attribute
     {
         /// <summary>
         /// Returns true if all assemblies except excluded assemblies should be gathered. If this is false,

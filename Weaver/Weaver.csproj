@@ -8,9 +8,10 @@
         <LangVersion>8</LangVersion>
         <!-- We're using dependency injection for service importing: -->
         <NoWarn>CS0649</NoWarn>
-        <RootNamespace>PostSharp.Community.JustOneExe.Weaver</RootNamespace> 
+        <RootNamespace>PostSharp.Community.Packer.Weaver</RootNamespace> 
+        <AssemblyName>PostSharp.Community.Packer.Weaver</AssemblyName>
     </PropertyGroup>
-
+    
     <ItemGroup>
         <!-- This package must be referenced by weaver assemblies, which are the assemblies that perform code
         modification. It doesn't need to be referenced by the client assemblies which contain attributes to be used
@@ -19,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PostSharp.Community.JustOneExe\PostSharp.Community.JustOneExe.csproj" />
+      <ProjectReference Include="..\Client\Client.csproj" />
     </ItemGroup>
 
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
