@@ -4,28 +4,28 @@
     <id>PostSharp.Community.Packer</id>
     <version>1.0-preview</version>
     <title>PostSharp.Community.Packer</title>
-    <authors>PostSharp Technologies</authors>
+    <authors>Simon Cropp, PostSharp Technologies and contributors</authors>
     <owners>PostSharp Technologies</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="expression">Unlicensed</license>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/postsharp/PostSharp.Community.Packer</projectUrl>
     <icon>icon.png</icon>
-    <description>An example PostSharp add-in that adds Console.WriteLine("Hello World!") to every method annotated with [JustOneExe].</description>
+    <description>Embeds dependencies as resources so that you have a standalone executable</description>
     <releaseNotes>Initial release.</releaseNotes>
-    <copyright>PostSharp Technologies</copyright>
-    <tags>postsharp ilweaving addin plugin JustOneExe</tags>
+    <copyright>SharpCrafters s.r.o.</copyright>
+    <tags>postsharp ilweaving costura ilrepack ilmerge assembly</tags>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
-		<!-- PostSharp respects semantic versioning, so it is safe to add a dependency up to the next major version, but not included. -->
         <dependency id="PostSharp" version="[6.6.3-preview,7.0)" />
       </group>
     </dependencies>
   </metadata>
 
   <files>
-    <file src="PostSharp.Community.JustOneExe\bin\Release\netstandard2.0\PostSharp.Community.Packer.dll" target="lib\netstandard2.0"/>
-    <file src="PostSharp.Community.JustOneExe\bin\Release\netstandard2.0\PostSharp.Community.Packer.xml" target="lib\netstandard2.0"/>
-    <file src="PostSharp.Community.Packer.Weaver\bin\Release\netstandard2.0\PostSharp.Community.Packer.Weaver.dll" target="tools"/>
+    <file src="BuildProcess\**" target="build" />
+    <file src="Client\bin\Release\netstandard2.0\PostSharp.Community.Packer.dll" target="lib\netstandard2.0"/>
+    <file src="Client\bin\Release\netstandard2.0\PostSharp.Community.Packer.xml" target="lib\netstandard2.0"/>
+    <file src="Weaver\bin\Release\netstandard2.0\PostSharp.Community.Packer.Weaver.dll" target="tools"/>
     <file src="icon.png" target="" />
   </files>
 </package>
