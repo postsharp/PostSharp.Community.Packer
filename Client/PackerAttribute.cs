@@ -6,11 +6,11 @@ namespace PostSharp.Community.Packer
     
    
     /// <summary>
-    /// Add <c>[assembly: JustOneExe]</c> anywhere in your source code to ensure that all references are packed into
+    /// Add <c>[assembly: Packer]</c> anywhere in your source code to ensure that all references are packed into
     /// your main output assembly.
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly)]
-    [RequirePostSharp("PostSharp.Community.Packer.Weaver", "JustOneExeTask")]
+    [RequirePostSharp("PostSharp.Community.Packer.Weaver", "PackerTask")]
     public class PackerAttribute : Attribute
     {
         /// <summary>
@@ -21,10 +21,15 @@ namespace PostSharp.Community.Packer
         public bool IncludeDebugSymbols { get;set; }
         
         /// <summary>
-        /// If true, then the assemblies gathered into the main assembly won't be compressed.
+        /// If true, then the assemblies gathered into the main assembly won't be compressed. Default false ("do compress").
         /// </summary>
         public bool DisableCompression { get;set; }
         public bool DisableCleanup { get;set; }
+        
+        /// <summary>
+        /// If true, then Packer will bootstrap itself in your assembly's module initializer and you don't need to
+        /// call <see cref="PackerUtility.Initialize"/>. Default true ("load automatically").
+        /// </summary>
         public bool LoadAtModuleInit { get;set; }
         public bool CreateTemporaryAssemblies { get; set;  }
         public bool IgnoreSatelliteAssemblies { get; set;  }

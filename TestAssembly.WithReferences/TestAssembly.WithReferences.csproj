@@ -14,9 +14,14 @@
         <FileAlignment>512</FileAlignment>
         <PostSharpSearchPath>..\Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
         <PostSharpHost>Native</PostSharpHost>
-<!--        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>-->
+        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>
     </PropertyGroup>
+    
+    
     <Import Project="..\BuildProcess\PostSharp.Community.Packer.targets" />
+    
+    
+    
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
@@ -40,6 +45,7 @@
         <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
           <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
+          <SpecificVersion>True</SpecificVersion>
         </Reference>
         <Reference Include="PostSharp, Version=6.6.3.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
           <HintPath>..\packages\PostSharp.Redist.6.6.3-preview\lib\net45\PostSharp.dll</HintPath>

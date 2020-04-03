@@ -6,9 +6,9 @@ using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class JustOneExeTask
+    partial class PackerTask
     {
-        void ProcessNativeResources(AssemblyManifestDeclaration manifest, bool compress)
+        void ProcessNativeResources(AssemblyManifestDeclaration manifest, bool compress, Checksums checksums)
         {
             var unprocessedNameMatch = new Regex(@"^(.*\.)?costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             var processedNameMatch = new Regex(@"^costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
@@ -19,7 +19,7 @@ namespace PostSharp.Community.Packer.Weaver
                 if (match.Success)
                 {
                     resource.Name = resource.Name.Substring(match.Groups[1].Length).ToLowerInvariant();
-                    hasUnmanaged = true;
+                    // TODO hasUnmanaged = true;
                 }
 
                 if (processedNameMatch.IsMatch(resource.Name))
@@ -30,12 +30,12 @@ namespace PostSharp.Community.Packer.Weaver
                         {
                             using (var compressStream = new DeflateStream(stream, CompressionMode.Decompress))
                             {
-                                checksums.Add(resource.Name, CalculateChecksum(compressStream));
+                                checksums.Add(resource.Name, Checksums.CalculateChecksum(compressStream));
                             }
                         }
                         else
                         {
-                            checksums.Add(resource.Name, CalculateChecksum(stream));
+                            checksums.Add(resource.Name, Checksums.CalculateChecksum(stream));
                         }
                     }
                 }

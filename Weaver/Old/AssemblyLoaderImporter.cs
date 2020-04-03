@@ -4,55 +4,15 @@ using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class JustOneExeTask
+    partial class PackerTask
     {
         // ConstructorInfo instructionConstructorInfo = typeof(Instruction).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(OpCode), typeof(object) }, null);
         // TypeDefinition targetType;
         // TypeDefinition sourceType;
         // TypeDefinition commonType;
-        // MethodDefinition attachMethod;
-        // MethodDefinition loaderCctor;
-        bool hasUnmanaged;
-        // FieldDefinition assemblyNamesField;
-        // FieldDefinition symbolNamesField;
-        // FieldDefinition preloadListField;
-        // FieldDefinition preload32ListField;
-        // FieldDefinition preload64ListField;
-        FieldDefDeclaration checksumsField;
-        //
-        void ImportAssemblyLoader(bool createTemporaryAssemblies)
-        {
-        
-                // var moduleDefinition = this.Project.Module.GetSystemModule()
-                //
-                // if (createTemporaryAssemblies)
-                // {
-                //     sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplateWithTempAssembly");
-                // }
-                // else if (hasUnmanaged)
-                // {
-                //     sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplateWithUnmanagedHandler");
-                // }
-                // else
-                // {
-                //     sourceType = moduleDefinition.Types.Single(x => x.Name == "ILTemplate");
-                // }
-                //
-                // commonType = moduleDefinition.Types.Single(x => x.Name == "Common");
-                // DumpSource("Common");
-                //
-                // targetType = new TypeDefinition("Costura", "AssemblyLoader", sourceType.Attributes,
-                //     Resolve(sourceType.BaseType));
-                // targetType.CustomAttributes.Add(new CustomAttribute(compilerGeneratedAttributeCtor));
-                // ModuleDefinition.Types.Add(targetType);
-                // CopyFields(sourceType);
-                // CopyMethod(sourceType.Methods.Single(x => x.Name == "ResolveAssembly"));
-                //
-                // loaderCctor = CopyMethod(sourceType.Methods.Single(x => x.IsConstructor && x.IsStatic));
-                // attachMethod = CopyMethod(sourceType.Methods.Single(x => x.Name == "Attach"));
-            
-        }
 
+        //
+     
         //
         // void DumpSource(string file)
         // {
@@ -82,29 +42,29 @@ namespace PostSharp.Community.Packer.Weaver
         //         targetType.Fields.Add(newField);
         //         if (field.Name == "assemblyNames")
         //         {
-        //             assemblyNamesField = newField;
+        //             AssemblyNamesField = newField;
         //         }
         //
         //         if (field.Name == "symbolNames")
         //         {
-        //             symbolNamesField = newField;
+        //             SymbolNamesField = newField;
         //         }
         //
         //         if (field.Name == "preloadList")
         //         {
-        //             preloadListField = newField;
+        //             PreloadListField = newField;
         //         }
         //         if (field.Name == "preload32List")
         //         {
-        //             preload32ListField = newField;
+        //             Preload32ListField = newField;
         //         }
         //         if (field.Name == "preload64List")
         //         {
-        //             preload64ListField = newField;
+        //             Preload64ListField = newField;
         //         }
         //         if (field.Name == "checksums")
         //         {
-        //             checksumsField = newField;
+        //             ChecksumsField = newField;
         //         }
         //     }
         // }

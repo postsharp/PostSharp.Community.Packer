@@ -1,44 +1,28 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Threading;
 
-namespace PostSharp.Community.Packer.Weaver.Templates
+namespace PostSharp.Community.Packer.Templates
 {
-    internal static class ILTemplateWithTempAssembly
+    internal static class ILTemplate
     {
         static object nullCacheLock = new object();
         static Dictionary<string, bool> nullCache = new Dictionary<string, bool>();
 
-        static string tempBasePath;
-
-        static List<string> preloadList = new List<string>();
-        static List<string> preload32List = new List<string>();
-        static List<string> preload64List = new List<string>();
-
-        static Dictionary<string, string> checksums = new Dictionary<string, string>();
+        static Dictionary<string, string> assemblyNames = new Dictionary<string, string>();
+        static Dictionary<string, string> symbolNames = new Dictionary<string, string>();
 
         static int isAttached;
 
         public static void Attach()
         {
+            Console.WriteLine("AttachBeginss begins...");
+
             if (Interlocked.Exchange(ref isAttached, 1) == 1)
             {
                 return;
             }
-
-            //Create a unique Temp directory for the application path.
-            var md5Hash = "To be replaced at compile time";
-            var prefixPath = Path.Combine(Path.GetTempPath(), "Costura");
-            tempBasePath = Path.Combine(prefixPath, md5Hash);
-
-            // Preload
-            var unmanagedAssemblies = IntPtr.Size == 8 ? preload64List : preload32List;
-            var libList = new List<string>();
-            libList.AddRange(unmanagedAssemblies);
-            libList.AddRange(preloadList);
-            Common.PreloadUnmanagedLibraries(md5Hash, tempBasePath, libList, checksums);
 
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += ResolveAssembly;
@@ -46,6 +30,7 @@ namespace PostSharp.Community.Packer.Weaver.Templates
 
         public static Assembly ResolveAssembly(object sender, ResolveEventArgs e)
         {
+            Console.WriteLine("ResolveAssembly begins...");
             lock (nullCacheLock)
             {
                 if (nullCache.ContainsKey(e.Name))
@@ -64,7 +49,7 @@ namespace PostSharp.Community.Packer.Weaver.Templates
 
             Common.Log("Loading assembly '{0}' into the AppDomain", requestedAssemblyName);
 
-            assembly = Common.ReadFromDiskCache(tempBasePath, requestedAssemblyName);
+            assembly = Common.ReadFromEmbeddedResources(assemblyNames, symbolNames, requestedAssemblyName);
             if (assembly == null)
             {
                 lock (nullCacheLock)

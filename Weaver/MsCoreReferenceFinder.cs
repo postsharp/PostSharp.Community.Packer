@@ -1,25 +1,30 @@
-﻿namespace PostSharp.Community.Packer.Weaver
-{
-    partial class JustOneExeTask
-    {
-        // IMet compilerGeneratedAttributeCtor;
-        // MethodReference dictionaryOfStringOfStringAdd;
-        // MethodReference listOfStringAdd;
+﻿using System.Collections.Generic;
+using PostSharp.Sdk.CodeModel;
+using PostSharp.Sdk.Collections;
 
-        void FindMsCoreReferences()
+namespace PostSharp.Community.Packer.Weaver
+{
+    public class Assets
+    {
+        public IMethod DictionaryOfStringOfStringAdd { get; }
+        public IMethod ListOfStringAdd { get; }
+
+        public Assets(ModuleDeclaration module)
         {
-            // var dictionary = FindType("System.Collections.Generic.Dictionary`2");
-            // var dictionaryOfStringOfString = ModuleDefinition.ImportReference(dictionary);
-            // dictionaryOfStringOfStringAdd = ModuleDefinition.ImportReference(dictionaryOfStringOfString.Resolve().Methods.First(m => m.Name == "Add"))
-            //     .MakeHostInstanceGeneric(TypeSystem.StringReference, TypeSystem.StringReference);
-            //
-            // var list = FindType("System.Collections.Generic.List`1");
-            // var listOfString = ModuleDefinition.ImportReference(list);
-            // listOfStringAdd = ModuleDefinition.ImportReference(listOfString.Resolve().Methods.First(m => m.Name == "Add"))
-            //     .MakeHostInstanceGeneric(TypeSystem.StringReference);
-            //
-            // var compilerGeneratedAttribute = FindType("System.Runtime.CompilerServices.CompilerGeneratedAttribute");
-            // compilerGeneratedAttributeCtor = ModuleDefinition.ImportReference(compilerGeneratedAttribute.Methods.First(x => x.IsConstructor));
+            INamedType dictionary = (INamedType)module.FindType(typeof(Dictionary<,>));
+            DictionaryOfStringOfStringAdd = module.FindMethod(dictionary, "Add").GetGenericInstance(
+                new GenericMap(module, new List<ITypeSignature>
+                {
+                    module.Cache.GetIntrinsic(IntrinsicType.String),
+                    module.Cache.GetIntrinsic(IntrinsicType.String)
+                }));
+            
+            INamedType list = (INamedType)module.FindType(typeof(List<>));
+            ListOfStringAdd = module.FindMethod(list, "Add").GetGenericInstance(
+                new GenericMap(module, new List<ITypeSignature>
+                {
+                    module.Cache.GetIntrinsic(IntrinsicType.String)
+                }));
         }
     }
 }

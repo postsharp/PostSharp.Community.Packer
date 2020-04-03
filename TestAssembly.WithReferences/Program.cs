@@ -1,11 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json;
-using PostSharp.Community.JustOneExe;
 using PostSharp.Community.Packer;
 using Soothsilver.Random;
 using Xunit;
 
-[assembly: Packer]
+[assembly: Packer(LoadAtModuleInit = false)]
 
 namespace TestAssembly.WithReferences
 {
@@ -13,6 +12,21 @@ namespace TestAssembly.WithReferences
     {
         public static void Main(string[] args)
         {
+            PackerUtility.Initialize();
+            Delay();
+        }
+
+        private static void Delay()
+        {
+            ThenUse.Stuff();
+        }
+    }
+
+    class ThenUse
+    {
+        public static void Stuff()
+        {
+            
             string srls = JsonConvert.SerializeObject(new string[] {"he", "ha"});
             string r = srls + R.Next(0, 1).ToString();
             Assert.Equal(@"[""he"",""ha""]0", r);

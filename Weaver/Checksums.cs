@@ -2,14 +2,16 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class JustOneExeTask
+    public class Checksums
     {
-        Dictionary<string, string> checksums = new Dictionary<string, string>();
+        readonly Dictionary<string, string> checksums = new Dictionary<string, string>();
 
-        static string CalculateChecksum(string filename)
+        public IReadOnlyDictionary<string, string> AllChecksums => checksums;
+        public static string CalculateChecksum(string filename)
         {
             using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
@@ -17,7 +19,7 @@ namespace PostSharp.Community.Packer.Weaver
             }
         }
 
-        static string CalculateChecksum(Stream stream)
+        public static string CalculateChecksum(Stream stream)
         {
             using (var bs = new BufferedStream(stream))
             using (var sha1 = new SHA1CryptoServiceProvider())
@@ -33,17 +35,14 @@ namespace PostSharp.Community.Packer.Weaver
             }
         }
 
-        void AddChecksumsToTemplate()
+        public void Add(string resourceName, string checksum)
         {
-            if (checksumsField == null)
-            {
-                return;
-            }
+            this.checksums.Add(resourceName, checksum);
+        }
 
-            foreach (var checksum in checksums)
-            {
-                AddToDictionary(checksumsField, checksum.Key, checksum.Value);
-            }
+        public bool ContainsKey(string resourceName)
+        {
+            return checksums.ContainsKey(resourceName);
         }
     }
 }

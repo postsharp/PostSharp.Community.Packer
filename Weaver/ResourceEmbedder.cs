@@ -8,13 +8,13 @@ using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class JustOneExeTask : IDisposable
+    partial class PackerTask : IDisposable
     {
         List<Stream> streams = new List<Stream>();
         string cachePath;
         private AssemblyManifestDeclaration manifest;
 
-        void EmbedResources(Packer.PackerAttribute config, string[] referenceCopyLocalPaths)
+        void EmbedResources(Packer.PackerAttribute config, string[] referenceCopyLocalPaths, Checksums checksums)
         {
           
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
@@ -36,12 +36,12 @@ namespace PostSharp.Community.Packer.Weaver
                 {
                     if (dependency.EndsWith(".resources.dll", StringComparison.OrdinalIgnoreCase))
                     {
-                        Embed($"costura.{Path.GetFileName(Path.GetDirectoryName(fullPath))}.", fullPath, !disableCompression, createTemporaryAssemblies, config.DisableCleanup);
+                        Embed($"costura.{Path.GetFileName(Path.GetDirectoryName(fullPath))}.", fullPath, !disableCompression, createTemporaryAssemblies, config.DisableCleanup, checksums);
                         continue;
                     }
                 }
 
-                Embed("costura.", fullPath, !disableCompression, createTemporaryAssemblies, config.DisableCleanup);
+                Embed("costura.", fullPath, !disableCompression, createTemporaryAssemblies, config.DisableCleanup, checksums);
 
                 if (!config.IncludeDebugSymbols)
                 {
@@ -50,7 +50,7 @@ namespace PostSharp.Community.Packer.Weaver
                 var pdbFullPath = Path.ChangeExtension(fullPath, "pdb");
                 if (File.Exists(pdbFullPath))
                 {
-                    Embed("costura.", pdbFullPath, !disableCompression, createTemporaryAssemblies, config.DisableCleanup);
+                    Embed("costura.", pdbFullPath, !disableCompression, createTemporaryAssemblies, config.DisableCleanup, checksums);
                 }
             }
 
@@ -61,12 +61,12 @@ namespace PostSharp.Community.Packer.Weaver
                 if (config.Unmanaged32Assemblies.Any(x => string.Equals(x, Path.GetFileNameWithoutExtension(dependency), StringComparison.OrdinalIgnoreCase)))
                 {
                     prefix = "costura32.";
-                    hasUnmanaged = true;
+                    // TODO hasUnmanaged = true;
                 }
                 if (config.Unmanaged64Assemblies.Any(x => string.Equals(x, Path.GetFileNameWithoutExtension(dependency), StringComparison.OrdinalIgnoreCase)))
                 {
                     prefix = "costura64.";
-                    hasUnmanaged = true;
+                    // TODO hasUnmanaged = true;
                 }
 
                 if (string.IsNullOrEmpty(prefix))
@@ -75,7 +75,7 @@ namespace PostSharp.Community.Packer.Weaver
                 }
 
                 var fullPath = Path.GetFullPath(dependency);
-                Embed(prefix, fullPath, !disableCompression, true, config.DisableCleanup);
+                Embed(prefix, fullPath, !disableCompression, true, config.DisableCleanup, checksums);
 
                 if (!config.IncludeDebugSymbols)
                 {
@@ -84,7 +84,7 @@ namespace PostSharp.Community.Packer.Weaver
                 var pdbFullPath = Path.ChangeExtension(fullPath, "pdb");
                 if (File.Exists(pdbFullPath))
                 {
-                    Embed(prefix, pdbFullPath, !disableCompression, true, config.DisableCleanup);
+                    Embed(prefix, pdbFullPath, !disableCompression, true, config.DisableCleanup, checksums);
                 }
             }
         }
@@ -179,11 +179,11 @@ namespace PostSharp.Community.Packer.Weaver
             }
         }
 
-        void Embed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup)
+        void Embed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup, Checksums checksums)
         {
             try
             {
-                InnerEmbed(prefix, fullPath, compress, addChecksum, disableCleanup);
+                InnerEmbed(prefix, fullPath, compress, addChecksum, disableCleanup, checksums);
             }
             catch (Exception exception)
             {
@@ -198,7 +198,7 @@ disableCleanup: {disableCleanup}");
             }
         }
 
-        private void InnerEmbed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup)
+        private void InnerEmbed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup, Checksums checksums)
         {
             if (!disableCleanup)
             {
@@ -214,7 +214,7 @@ disableCleanup: {disableCleanup}");
                 // - if compress == false: an assembly that appeared twice in the ReferenceCopyLocalPaths, e.g. the same library from different nuget packages (https://github.com/Fody/Costura/issues/332)
                 if (addChecksum && !checksums.ContainsKey(resourceName))
                 {
-                    checksums.Add(resourceName, CalculateChecksum(fullPath));
+                    checksums.Add(resourceName, Checksums.CalculateChecksum(fullPath));
                 }
 
                 return;
@@ -231,7 +231,7 @@ disableCleanup: {disableCleanup}");
                 }
             }
             
-            var checksum = CalculateChecksum(fullPath);
+            var checksum = Checksums.CalculateChecksum(fullPath);
             var cacheFile = Path.Combine(cachePath, $"{checksum}.{resourceName}");
             var memoryStream = BuildMemoryStream(fullPath, compress, cacheFile);
             streams.Add(memoryStream);

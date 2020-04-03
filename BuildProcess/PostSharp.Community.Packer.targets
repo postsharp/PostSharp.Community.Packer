@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <ItemGroup>
+        <Compile Include="$(MSBuildThisFileDirectory)Templates\Common.cs">
+            <Link>PostSharp.Packer\Common.cs</Link>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Templates\ILTemplate.cs">
+            <Link>PostSharp.Packer\ILTemplate.cs</Link>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Templates\ILTemplateWithTempAssembly.cs">
+            <Link>PostSharp.Packer\ILTemplateWithTempAssembly.cs</Link>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Templates\ILTemplateWithUnmanagedHandler.cs">
+            <Link>PostSharp.Packer\ILTemplateWithUnmanagedHandler.cs</Link>
+        </Compile>
+    </ItemGroup>
+    <Target Name="PassAssembliesToAddin" BeforeTargets="PostSharpCore">
+        <PropertyGroup>
+            <PostSharpProperties>ReferenceCopyLocalPaths=@(ReferenceCopyLocalPaths->'%(Identity)','|');$(PostSharpProperties)</PostSharpProperties>
+        </PropertyGroup>
+    </Target>
+</Project>

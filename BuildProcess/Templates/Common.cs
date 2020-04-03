@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -12,7 +12,7 @@ using System.Threading;
 
 // ReSharper disable CommentTypo
 
-namespace PostSharp.Community.Packer.Weaver.Templates
+namespace PostSharp.Community.Packer.Templates
 {
     internal static class Common
     {

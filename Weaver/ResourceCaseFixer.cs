@@ -3,7 +3,7 @@ using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class JustOneExeTask
+    partial class PackerTask
     {
         void FixResourceCase(AssemblyManifestDeclaration manifest)
         {

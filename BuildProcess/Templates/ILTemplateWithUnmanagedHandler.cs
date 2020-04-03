@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 
-namespace PostSharp.Community.Packer.Weaver.Templates
+namespace PostSharp.Community.Packer.Templates
 {
     internal static class ILTemplateWithUnmanagedHandler
     {
