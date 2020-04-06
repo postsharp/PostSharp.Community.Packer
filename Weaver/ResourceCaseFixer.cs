@@ -3,9 +3,9 @@ using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class PackerTask
+    static class ResourceCaseFixer
     {
-        void FixResourceCase(AssemblyManifestDeclaration manifest)
+        public static void FixResourceCase(AssemblyManifestDeclaration manifest)
         {
             foreach (var resource in manifest.Resources)
             {

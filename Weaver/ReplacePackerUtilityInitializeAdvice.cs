@@ -5,11 +5,11 @@ namespace PostSharp.Community.Packer.Weaver
 {
     internal class ReplacePackerUtilityInitializeAdvice : IAdvice
     {
-        private IMethod _methodToCall;
+        private readonly IMethod methodToCall;
 
         public ReplacePackerUtilityInitializeAdvice(IMethod methodToCall)
         {
-            _methodToCall = methodToCall;
+            this.methodToCall = methodToCall;
         }
         
         public bool RequiresWeave(WeavingContext context)
@@ -21,12 +21,12 @@ namespace PostSharp.Community.Packer.Weaver
         {
             InstructionWriter iw = context.InstructionWriter;
             iw.AttachInstructionSequence(block.AddInstructionSequence());
-            iw.EmitInstructionMethod(OpCodeNumber.Call, _methodToCall);
+            iw.EmitInstructionMethod(OpCodeNumber.Call, methodToCall);
             iw.DetachInstructionSequence();
             ReplacedAtLeastOneCall = true;
         }
 
         public int Priority => 0;
-        public bool ReplacedAtLeastOneCall { get; set; }
+        public bool ReplacedAtLeastOneCall { get; private set; }
     }
 }

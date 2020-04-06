@@ -6,20 +6,25 @@ using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class PackerTask
+    public static class NativeResourcesProcessor
     {
-        void ProcessNativeResources(AssemblyManifestDeclaration manifest, bool compress, Checksums checksums)
+        /// <summary>
+        /// Calculates checksums for costura-processed unmanaged resources of the assembly, and returns true if
+        /// any unprocessed resources exist.
+        /// </summary>
+        public static bool ProcessNativeResources(AssemblyManifestDeclaration manifest, bool compress, Checksums checksums)
         {
             var unprocessedNameMatch = new Regex(@"^(.*\.)?costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             var processedNameMatch = new Regex(@"^costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-
+            bool hasUnmanaged = false;
+            
             foreach (var resource in manifest.Resources)
             {
                 var match = unprocessedNameMatch.Match(resource.Name);
                 if (match.Success)
                 {
                     resource.Name = resource.Name.Substring(match.Groups[1].Length).ToLowerInvariant();
-                    // TODO hasUnmanaged = true;
+                    hasUnmanaged = true;
                 }
 
                 if (processedNameMatch.IsMatch(resource.Name))
@@ -40,6 +45,8 @@ namespace PostSharp.Community.Packer.Weaver
                     }
                 }
             }
+
+            return hasUnmanaged;
         }
     }
 }

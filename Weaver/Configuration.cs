@@ -12,25 +12,6 @@ namespace PostSharp.Community.Packer.Weaver
 {
     public class Configuration
     {
-        //
-        //     IncludeDebugSymbols = ReadBool(config, "IncludeDebugSymbols", IncludeDebugSymbols);
-        //     DisableCompression = ReadBool(config, "DisableCompression", DisableCompression);
-        //     DisableCleanup = ReadBool(config, "DisableCleanup", DisableCleanup);
-        //     LoadAtModuleInit = ReadBool(config, "LoadAtModuleInit", LoadAtModuleInit);
-        //     CreateTemporaryAssemblies = ReadBool(config, "CreateTemporaryAssemblies", CreateTemporaryAssemblies);
-        //     IgnoreSatelliteAssemblies = ReadBool(config, "IgnoreSatelliteAssemblies", IgnoreSatelliteAssemblies);
-        //
-        //     ExcludeAssemblies = ReadList(config, "ExcludeAssemblies");
-        //     IncludeAssemblies = ReadList(config, "IncludeAssemblies");
-        //     Unmanaged32Assemblies = ReadList(config, "Unmanaged32Assemblies");
-        //     Unmanaged64Assemblies = ReadList(config, "Unmanaged64Assemblies");
-        //     PreloadOrder = ReadList(config, "PreloadOrder");
-        //
-        //     if (IncludeAssemblies.Any() && ExcludeAssemblies.Any())
-        //     {
-        //         throw new Exception("Either configure IncludeAssemblies OR ExcludeAssemblies, not both.");
-        //     }
-        // }
         public static Packer.PackerAttribute Read(IAnnotationInstance annotation)
         {
             Packer.PackerAttribute config = new Packer.PackerAttribute();

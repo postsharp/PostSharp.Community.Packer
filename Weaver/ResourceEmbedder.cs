@@ -8,13 +8,19 @@ using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    partial class PackerTask : IDisposable
+    public class ResourceEmbedder : IDisposable
     {
+        private readonly AssemblyManifestDeclaration manifest;
         List<Stream> streams = new List<Stream>();
         string cachePath;
-        private AssemblyManifestDeclaration manifest;
+        public bool HasUnmanaged { get; private set; }
 
-        void EmbedResources(Packer.PackerAttribute config, string[] referenceCopyLocalPaths, Checksums checksums)
+        public ResourceEmbedder(AssemblyManifestDeclaration manifest)
+        {
+            this.manifest = manifest;
+        }
+
+        public void EmbedResources(PackerAttribute config, string[] referenceCopyLocalPaths, Checksums checksums)
         {
           
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
@@ -61,12 +67,12 @@ namespace PostSharp.Community.Packer.Weaver
                 if (config.Unmanaged32Assemblies.Any(x => string.Equals(x, Path.GetFileNameWithoutExtension(dependency), StringComparison.OrdinalIgnoreCase)))
                 {
                     prefix = "costura32.";
-                    // TODO hasUnmanaged = true;
+                    this.HasUnmanaged = true;
                 }
                 if (config.Unmanaged64Assemblies.Any(x => string.Equals(x, Path.GetFileNameWithoutExtension(dependency), StringComparison.OrdinalIgnoreCase)))
                 {
                     prefix = "costura64.";
-                    // TODO hasUnmanaged = true;
+                    this.HasUnmanaged = true;
                 }
 
                 if (string.IsNullOrEmpty(prefix))
@@ -99,7 +105,7 @@ namespace PostSharp.Community.Packer.Weaver
             return matchText.Equals(assemblyName, StringComparison.OrdinalIgnoreCase);
         }
 
-        IEnumerable<string> GetFilteredReferences(IEnumerable<string> onlyBinaries, Packer.PackerAttribute config)
+        IEnumerable<string> GetFilteredReferences(IEnumerable<string> onlyBinaries, PackerAttribute config)
         {
             if (config.IncludeAssemblies.Any())
             {
