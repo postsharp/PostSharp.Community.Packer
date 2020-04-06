@@ -17,6 +17,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
+        
+    - name: Restore NuGet Packages
+      run: nuget restore PostSharp.Community.Packer.sln
     - name: Build with dotnet
       run: dotnet build --configuration Release
     - name: Run XUnit tests
