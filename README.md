@@ -1,10 +1,7 @@
 ## <img src="icon.png" width="32"> &nbsp; PostSharp.Community.Packer 
-**This add-in is not yet functioning!**
+**This add-in is not yet published!**
 
 Embeds dependencies as resources so that you can have a standalone executable.
-
-
-
 
 *This is an add-in for [PostSharp](https://postsharp.net). It modifies your assembly during compilation by using IL weaving.*
 
