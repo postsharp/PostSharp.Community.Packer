@@ -19,7 +19,7 @@ namespace PostSharp.Community.Packer.Weaver
             this.assets = assets;
         }
         
-        public void BuildUpNameDictionary(bool createTemporaryAssemblies, string[] preloadOrder, Checksums checksums)
+        public void BuildUpNameDictionary(bool createTemporaryAssemblies, string[] preloadOrder, string resourcesHash, Checksums checksums)
         {
             var loaderMethod = info.StaticConstructorMethod;
             InstructionReader reader = loaderMethod.MethodBody.CreateInstructionReader();
@@ -33,7 +33,7 @@ namespace PostSharp.Community.Packer.Weaver
                 }
             }
             Console.WriteLine(reader.CurrentInstruction);
-            reader.CurrentInstructionSequence.SplitAroundReaderPosition(reader, out var seqBefore, out var seqAfter);
+            reader.CurrentInstructionSequence.SplitAroundReaderPosition(reader, out _, out _);
             var newSequence =
                 reader.CurrentInstructionBlock.AddInstructionSequence(null, NodePosition.Before,
                     reader.CurrentInstructionSequence);
@@ -92,6 +92,12 @@ namespace PostSharp.Community.Packer.Weaver
                 {
                     AddToDictionary(writer, info.ChecksumsField, checksum.Key, checksum.Value);
                 }
+            }
+
+            if (info.Md5HashField != null)
+            {
+                writer.EmitInstructionString(OpCodeNumber.Ldstr, resourcesHash);
+                writer.EmitInstructionField(OpCodeNumber.Stsfld, info.Md5HashField);
             }
 
             writer.DetachInstructionSequence();

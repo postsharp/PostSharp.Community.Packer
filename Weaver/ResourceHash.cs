@@ -3,10 +3,12 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using PostSharp.Sdk.CodeModel;
+using PostSharp.Sdk.CodeWeaver;
+using PostSharp.Sdk.Extensibility;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    public static class HashCalculator
+    public static class ResourceHash
     {
         public static string CalculateHash(AssemblyManifestDeclaration manifest)
         {

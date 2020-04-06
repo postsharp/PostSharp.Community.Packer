@@ -51,10 +51,13 @@ namespace PostSharp.Community.Packer.Weaver
                 Project.Module);
             
             // Alter code:
-            string resourcesHash = HashCalculator.CalculateHash(manifest);
+            string resourcesHash = ResourceHash.CalculateHash(manifest);
             new AttachCallSynthesis().SynthesizeCallToAttach(config, Project, info);
-            new ResourceNameFinder(info, manifest, assets).BuildUpNameDictionary(config.CreateTemporaryAssemblies,
-                config.PreloadOrder, checksums);
+            new ResourceNameFinder(info, manifest, assets).BuildUpNameDictionary(
+                config.CreateTemporaryAssemblies,
+                config.PreloadOrder,
+                resourcesHash,
+                checksums);
 
             return true;
         }

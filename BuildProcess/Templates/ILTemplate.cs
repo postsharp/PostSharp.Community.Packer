@@ -17,8 +17,6 @@ namespace PostSharp.Community.Packer.Templates
 
         public static void Attach()
         {
-            Console.WriteLine("AttachBeginss begins...");
-
             if (Interlocked.Exchange(ref isAttached, 1) == 1)
             {
                 return;
@@ -30,7 +28,6 @@ namespace PostSharp.Community.Packer.Templates
 
         public static Assembly ResolveAssembly(object sender, ResolveEventArgs e)
         {
-            Console.WriteLine("ResolveAssembly begins...");
             lock (nullCacheLock)
             {
                 if (nullCache.ContainsKey(e.Name))

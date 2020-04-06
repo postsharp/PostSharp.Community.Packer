@@ -23,6 +23,10 @@ namespace PostSharp.Community.Packer.Templates
 
         static int isAttached;
 
+#pragma warning disable 649
+        private static string md5Hash;
+#pragma warning restore 649
+        
         public static void Attach()
         {
             if (Interlocked.Exchange(ref isAttached, 1) == 1)
@@ -31,7 +35,6 @@ namespace PostSharp.Community.Packer.Templates
             }
 
             //Create a unique Temp directory for the application path.
-            var md5Hash = "To be replaced at compile time";
             var prefixPath = Path.Combine(Path.GetTempPath(), "Costura");
             tempBasePath = Path.Combine(prefixPath, md5Hash);
 

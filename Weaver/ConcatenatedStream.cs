@@ -9,7 +9,7 @@ namespace PostSharp.Community.Packer.Weaver
     /// </summary>
     class ConcatenatedStream : Stream
     {
-        Queue<Stream> streams;
+        readonly Queue<Stream> streams;
 
         public ConcatenatedStream(IEnumerable<Stream> streams)
         {
@@ -30,7 +30,7 @@ namespace PostSharp.Community.Packer.Weaver
                 int bytesRead = streams.Peek().Read(buffer, offset, count);
                 if (bytesRead == 0)
                 {
-                    streams.Dequeue().Dispose();
+                    streams.Dequeue();
                     continue;
                 }
 

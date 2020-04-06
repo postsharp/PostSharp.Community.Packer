@@ -11,7 +11,7 @@ namespace PostSharp.Community.Packer.Weaver
     public class ResourceEmbedder : IDisposable
     {
         private readonly AssemblyManifestDeclaration manifest;
-        List<Stream> streams = new List<Stream>();
+        readonly List<Stream> streams = new List<Stream>();
         string cachePath;
         public bool HasUnmanaged { get; private set; }
 

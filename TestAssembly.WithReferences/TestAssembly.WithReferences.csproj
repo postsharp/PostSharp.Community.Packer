@@ -14,7 +14,7 @@
         <FileAlignment>512</FileAlignment>
         <PostSharpSearchPath>..\Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
         <PostSharpHost>Native</PostSharpHost>
-        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>
+<!--        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>-->
     </PropertyGroup>
     
     
