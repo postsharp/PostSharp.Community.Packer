@@ -17,10 +17,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-        
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1
     - name: Restore NuGet Packages
-      run: nuget restore PostSharp.Community.Packer.sln
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: msbuild PostSharp.Community.Packer.sln /T:Restore,Rebuild /P:Configuration=Release
     - name: Run XUnit tests
       run: dotnet test --verbosity normal 
