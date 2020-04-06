@@ -10,9 +10,11 @@ namespace PostSharp.Community.Packer.Weaver
     class ConcatenatedStream : Stream
     {
         readonly Queue<Stream> streams;
+        private readonly Stream[] allStreams;
 
-        public ConcatenatedStream(IEnumerable<Stream> streams)
+        public ConcatenatedStream(Stream[] streams)
         {
+            this.allStreams = streams;
             this.streams = new Queue<Stream>(streams);
         }
 
@@ -21,6 +23,14 @@ namespace PostSharp.Community.Packer.Weaver
             get { return true; }
         }
 
+        public void ResetAllToZero()
+        {
+            foreach (Stream stream in allStreams)
+            {
+                stream.Position = 0;
+            }
+        }
+        
         public override int Read(byte[] buffer, int offset, int count)
         {
             int totalBytesRead = 0;

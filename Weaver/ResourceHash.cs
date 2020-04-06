@@ -15,7 +15,8 @@ namespace PostSharp.Community.Packer.Weaver
             var data = manifest.Resources
                 .OrderBy(r => r.Name)
                 .Where(r => r.Name.StartsWith("costura"))
-                .Select(r => r.ContentStreamProvider());
+                .Select(r => r.ContentStreamProvider())
+                .ToArray();
             ConcatenatedStream allStream = new ConcatenatedStream(data);
             
             using (var md5 = MD5.Create())
@@ -27,7 +28,8 @@ namespace PostSharp.Community.Packer.Weaver
                 {
                     sb.Append(hashBytes[i].ToString("X2"));
                 }
-            
+                
+                allStream.ResetAllToZero();
                 return sb.ToString();
             }
         }

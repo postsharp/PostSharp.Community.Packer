@@ -1,28 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+        <TargetFramework>net48</TargetFramework>
         <IsPackable>false</IsPackable>
-        <!-- Normally, PostSharp searches for weaver assemblies in the tools directories of NuGet packages. But, since we're
-        using the weaver directly instead of using it in a NuGet package here, we must add the weaver to the PostSharp
-        search path manually: -->
-        <PostSharpSearchPath>..\Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
-        <RootNamespace>PostSharp.Community.JustOneExe.Tests</RootNamespace>
+        <RootNamespace>PostSharp.Community.Packer.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-        <PackageReference Include="PostSharp" Version="6.6.3-preview" />
         <PackageReference Include="xunit" Version="2.4.0" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <!-- We don't actually need to reference the weaver here, but we need the weaver assembly to exist in the folder
-      on the PostSharp search path before our build, so this project reference ensures that the weaver builds before this project: -->
-      <ProjectReference Include="..\Client\Client.csproj" />
-      <ProjectReference Include="..\Weaver\Weaver.csproj" />
-      <!-- We need the attribute: -->
+      <ProjectReference Include="..\TestAssembly.WithReferences\TestAssembly.WithReferences.csproj" />
     </ItemGroup>
 
 </Project>

@@ -139,7 +139,7 @@ namespace PostSharp.Community.Packer.Weaver
                         if (string.IsNullOrEmpty(fileName))
                         {
                             hasErrors = true;
-                          //  LogError($"Assembly '{skippedAssembly}' cannot be found (not even as CopyLocal='false'), please update the configuration");
+                          // TODO  LogError($"Assembly '{skippedAssembly}' cannot be found (not even as CopyLocal='false'), please update the configuration");
                             continue;
                         }
 
