@@ -26,4 +26,4 @@ jobs:
     - name: msbuild
       run: msbuild PostSharp.Community.Packer.sln /T:Restore,Rebuild /P:Configuration=Release
     - name: Run XUnit tests
-      run: dotnet test --verbosity normal 
+      run: dotnet test --verbosity normal -c Release
