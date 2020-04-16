@@ -1,7 +1,7 @@
 ## <img src="icon.png" width="32"> &nbsp; PostSharp.Community.Packer 
-**This add-in is not yet published!**
-
 Embeds dependencies as resources so that you can have a standalone executable.
+
+This add-in only works under .NET Framework. In .NET Core, we recommend instead upgrading to .NET Core 3 or later and use [the single file executable feature](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-core-3-0#single-file-executables). 
 
 *This is an add-in for [PostSharp](https://postsharp.net). It modifies your assembly during compilation by using IL weaving.*
 
