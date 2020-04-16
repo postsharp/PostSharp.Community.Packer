@@ -19,7 +19,7 @@ namespace PostSharp.Community.Packer.Weaver
             this.assets = assets;
         }
         
-        public void BuildUpNameDictionary(bool createTemporaryAssemblies, string[] preloadOrder, string resourcesHash, Checksums checksums)
+        public void FillInStaticConstructor(bool createTemporaryAssemblies, string[] preloadOrder, string resourcesHash, Checksums checksums)
         {
             var loaderMethod = info.StaticConstructorMethod;
             InstructionReader reader = loaderMethod.MethodBody.CreateInstructionReader();

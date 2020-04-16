@@ -53,7 +53,7 @@ namespace PostSharp.Community.Packer.Weaver
             // Alter code:
             string resourcesHash = ResourceHash.CalculateHash(manifest);
             new AttachCallSynthesis().SynthesizeCallToAttach(config, Project, info);
-            new ResourceNameFinder(info, manifest, assets).BuildUpNameDictionary(
+            new ResourceNameFinder(info, manifest, assets).FillInStaticConstructor(
                 config.CreateTemporaryAssemblies,
                 config.PreloadOrder,
                 resourcesHash,

@@ -11,7 +11,7 @@ namespace PostSharp.Community.Packer.Tests
         private const string ConfigFolder = "Debug";
         #else
         private const string ConfigFolder = "Release";
-#endif
+        #endif
         [Fact]
         public void TestTestAssemblyWithReferences()
         {
