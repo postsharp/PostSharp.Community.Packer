@@ -7,10 +7,15 @@ namespace PostSharp.Community.Packer.Tests
 {
     public class BasicTest
     {
+        #if DEBUG
+        private const string ConfigFolder = "Debug";
+        #else
+        private const string ConfigFolder = "Release";
+#endif
         [Fact]
         public void TestTestAssemblyWithReferences()
         {
-            string folder = @"..\..\..\..\TestAssembly.WithReferences\bin\Debug";
+            string folder = @"..\..\..\..\TestAssembly.WithReferences\bin\" + ConfigFolder;
             string filename = "TestAssembly.WithReferences.exe";
             DeleteAllButOne(folder, filename);
             Process p = Process.Start(Path.Combine(folder, filename));
@@ -20,7 +25,7 @@ namespace PostSharp.Community.Packer.Tests
         [Fact]
         public void TestWPF()
         {
-            string folder = @"..\..\..\..\Tests.WPF\bin\Debug";
+            string folder = @"..\..\..\..\Tests.WPF\bin\" + ConfigFolder;
             string filename = "Tests.WPF.exe";
             DeleteAllButOne(folder, filename);
             Process p = Process.Start(Path.Combine(folder, filename));
