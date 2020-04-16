@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="..\packages\PostSharp.6.6.3-preview\build\PostSharp.props" Condition="Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.props')" />
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{CC83242C-6A58-4338-9BC3-C2C3D83C888A}</ProjectGuid>
+        <OutputType>Exe</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>TestAssembly.WithReferences</RootNamespace>
+        <AssemblyName>TestAssembly.WithReferences</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <PostSharpSearchPath>..\Weaver\bin\$(Configuration)\netstandard2.0</PostSharpSearchPath>
+        <PostSharpHost>Native</PostSharpHost>
+<!--        <PostSharpAttachDebugger>True</PostSharpAttachDebugger>-->
+    </PropertyGroup>
+    
+    
+    <Import Project="..\BuildProcess\PostSharp.Community.Packer.targets" />
+    
+    
+    
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+          <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+          <SpecificVersion>True</SpecificVersion>
+        </Reference>
+        <Reference Include="PostSharp, Version=6.6.3.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
+          <HintPath>..\packages\PostSharp.Redist.6.6.3-preview\lib\net45\PostSharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Soothsilver.Random, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\Soothsilver.Random.1.1.0\lib\net40\Soothsilver.Random.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+        <Reference Include="xunit.assert, Version=2.4.0.4049, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c">
+          <HintPath>..\packages\xunit.assert.2.4.0\lib\netstandard2.0\xunit.assert.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Program.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
+      <ProjectReference Include="..\Client\Client.csproj">
+        <Project>{b7b0ce10-c0a4-4d53-8caf-1bd3875a915e}</Project>
+        <Name>Client</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\Weaver\Weaver.csproj">
+        <Project>{e7c4ca26-f0fc-4fd8-b6ac-a996c5635c61}</Project>
+        <Name>Weaver</Name>
+      </ProjectReference>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+      <PropertyGroup>
+        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+      </PropertyGroup>
+      <Error Condition="!Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.6.3-preview\build\PostSharp.props'))" />
+      <Error Condition="!Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets'))" />
+    </Target>
+    <Import Project="..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets" Condition="Exists('..\packages\PostSharp.6.6.3-preview\build\PostSharp.targets')" />
+</Project>

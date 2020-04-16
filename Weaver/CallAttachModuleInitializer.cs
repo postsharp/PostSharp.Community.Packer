@@ -15,7 +15,7 @@ namespace PostSharp.Community.Packer.Weaver
             this.attachMethod = attachMethod;
         }
         
-        public bool HasEffect(string effect) => false;
+        public bool HasEffect(string effect) => true;
 
         public string GetDisplayName() => "Calls the assembly loader's Attach method in the module initializer.";
 
@@ -23,7 +23,10 @@ namespace PostSharp.Community.Packer.Weaver
         public bool IsCommutative => true;
         public void Emit(InstructionWriter writer, InstructionBlock block, TypeInitializationClientScopes scope)
         {
+            InstructionSequence sequence = block.AddInstructionSequence();
+            writer.AttachInstructionSequence(sequence);
             writer.EmitInstructionMethod(OpCodeNumber.Call, attachMethod);
+            writer.DetachInstructionSequence();
         }
 
         public bool IsBeforeFieldInitSupported => false;

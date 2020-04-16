@@ -1,25 +1,40 @@
 ﻿using System;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using PostSharp.Aspects;
+using PostSharp.Aspects.Advices;
 using PostSharp.Community.Packer;
 using Soothsilver.Random;
 using Xunit;
 
-[assembly: Packer(LoadAtModuleInit = true)]
+[assembly: Packer(LoadAtModuleInit = false)]
 
 namespace TestAssembly.WithReferences
 {
     internal class Program
-    {
+    {    
+        [LogMe]
+
         public static void Main(string[] args)
         {
             //Debugger.Launch();
+            PackerUtility.Initialize();
             Delay();
         }
 
         private static void Delay()
         {
             ThenUse.Stuff();
+        }
+    }
+
+    [Serializable]
+    internal class LogMeAttribute : OnMethodBoundaryAspect
+    {
+        public override void OnEntry(MethodExecutionArgs args)
+        {
+            Console.WriteLine("On entry");
+            base.OnEntry(args);
         }
     }
 
