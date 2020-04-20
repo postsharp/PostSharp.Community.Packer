@@ -16,7 +16,7 @@
         <!-- This package must be referenced by weaver assemblies, which are the assemblies that perform code
         modification. It doesn't need to be referenced by the client assemblies which contain attributes to be used
         by users of your add-in. -->
-      <PackageReference Include="PostSharp.Compiler.Engine" Version="6.6.3-preview" />
+      <PackageReference Include="PostSharp.Compiler.Engine" Version="6.6.6" />
     </ItemGroup>
 
     <ItemGroup>

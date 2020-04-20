@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <!-- We need this to use the PostSharp MulticastAttribute: -->
-      <PackageReference Include="PostSharp.Redist" Version="6.6.3-preview" />
+      <PackageReference Include="PostSharp.Redist" Version="6.6.6" />
     </ItemGroup>
     
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
