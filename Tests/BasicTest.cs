@@ -29,7 +29,7 @@ namespace PostSharp.Community.Packer.Tests
             string filename = "Tests.WPF.exe";
             DeleteAllButOne(folder, filename);
             Process p = Process.Start(Path.Combine(folder, filename));
-            Assert.True(p.WaitForExit(5000));
+            Assert.True(p.WaitForExit(35000));
             Assert.Equal(0, p.ExitCode);
         }
 
