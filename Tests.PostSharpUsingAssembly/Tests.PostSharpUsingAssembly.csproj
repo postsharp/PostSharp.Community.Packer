@@ -47,7 +47,7 @@
           <Private>True</Private>
           <SpecificVersion>True</SpecificVersion>
         </Reference>
-        <Reference Include="PostSharp, Version=6.6.3.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
+        <Reference Include="PostSharp, Version=6.6.6.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
           <HintPath>..\packages\PostSharp.Redist.6.6.6\lib\net45\PostSharp.dll</HintPath>
           <Private>True</Private>
         </Reference>
