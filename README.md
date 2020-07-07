@@ -3,6 +3,8 @@ Embeds dependencies as resources so that you can have a standalone executable.
 
 This add-in only works under .NET Framework. In .NET Core, we recommend instead upgrading to .NET Core 3 or later and use [the single file executable feature](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-core-3-0#single-file-executables). 
 
+***May 27, 2020.** We've covered this add-in in [a blog post](https://www.postsharp.net/blog/post/Pack-your-NET-program-to-a-single-exe-file-with-PostSharp-Community).*
+
 *This is an add-in for [PostSharp](https://postsharp.net). It modifies your assembly during compilation by using IL weaving.*
 
 ![CI badge](https://github.com/postsharp/PostSharp.Community.Packer/workflows/Full%20Pipeline/badge.svg)
