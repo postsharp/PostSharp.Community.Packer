@@ -5,12 +5,12 @@ using PostSharp.Community.Packer;
 using Soothsilver.Random;
 using Xunit;
 
-[assembly: Packer(LoadAtModuleInit = true)]
+[assembly: Packer(LoadAtModuleInit = true, ExcludeAssemblies = new string [] { "nonexistent-assembly" })]
 
 namespace TestAssembly.WithReferences
 {
     internal class Program
-    {
+    { 
         public static void Main(string[] args)
         {
             //Debugger.Launch();

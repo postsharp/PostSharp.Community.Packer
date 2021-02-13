@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using PostSharp.Sdk.CodeModel;
 using PostSharp.Sdk.CodeModel.Collections;
 
@@ -12,7 +13,18 @@ namespace PostSharp.Community.Packer.Weaver
         }
         public static string[] GetSafeStringArray(this MemberValuePairCollection collection, string name)
         {
-            return (string[]) (collection[name]?.Value.Value ?? new string[0]);
+            object array = collection[name]?.Value.Value;
+            
+            // Even though only string[] array are legal in attribute properties, the collection provides them to us
+            // as object arrays so we need to convert:
+            if (array is object[] objects)
+            {
+                string[] converted = new string[objects.Length];
+                Array.Copy(objects, converted, objects.Length);
+                array = converted;
+            }
+            
+            return (string[]) (array ?? new string[0]);
         }
     }
 }
