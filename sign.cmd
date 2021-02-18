@@ -1,0 +1,1 @@
+SignClient.exe Sign --input *.nupkg --config sign.json --name Caravela --user sign-caravela@postsharp.net --secret %SIGNSERVER_SECRET%

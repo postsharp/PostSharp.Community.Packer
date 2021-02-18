@@ -3,3 +3,6 @@ obj/
 /packages/
 .idea/
 /.vs
+.store/
+*.exe
+*.nupkg

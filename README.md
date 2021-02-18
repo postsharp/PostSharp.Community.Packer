@@ -10,10 +10,13 @@ This add-in only works under .NET Framework. In .NET Core, we recommend instead 
 ![CI badge](https://github.com/postsharp/PostSharp.Community.Packer/workflows/Full%20Pipeline/badge.svg)
 
 #### Example
+
 Your project would normally result in `MyProject.exe` which requires `Newtonsoft.Json.dll` and `Soothsilver.Random.dll` as dependencies because you used those NuGet packages.
 
 If you use this add-in, instead those two DLLs will be embedded into `MyProject.exe` as resources and loaded from there. 
+
 #### Installation 
+
 1. Install the NuGet package: `PM> Install-Package PostSharp.Community.Packer`
 2. Get a free PostSharp Community license at https://www.postsharp.net/essentials
 3. When you compile for the first time, you'll be asked to enter the license key.
@@ -23,7 +26,31 @@ You can then distribute just the main output assembly file. It will be enough.
 
 There are documented configuration options in the Packer attribute. Set them in your source code to change them from their defaults.
 
+#### Building the project
+
+To build the project on your local machine, execute this from a VS 2019 command prompt:
+
+```
+msbuild /p:Configuration=Release
+nuget pack PostSharp.Community.Packer.nuspec
+```
+
+For an official build:
+
+1. Install SignClient
+    ```
+    dotnet tool install --tool-path . SignClient
+    ```
+
+2. Sign
+   ```
+   set SIGNSERVER_SECRET=****
+   sign.cmd
+   ```
+
+
 #### Copyright notices
+
 Published under the MIT license.
 
 * Copyright © PostSharp Technologies, Simon Cropp, and contributors 
