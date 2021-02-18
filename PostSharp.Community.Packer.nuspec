@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>PostSharp.Community.Packer</id>
-    <version>1.1</version>
+    <version>1.2</version>
     <title>PostSharp.Community.Packer</title>
     <authors>Simon Cropp, PostSharp Technologies and contributors</authors>
     <owners>PostSharp Technologies</owners>
@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/postsharp/PostSharp.Community.Packer</projectUrl>
     <icon>icon.png</icon>
     <description>Embeds dependencies as resources so that you have a standalone executable</description>
-    <releaseNotes>First full non-preview release.</releaseNotes>
+    <releaseNotes>Fixes a bug where string[] properties of the Packer attribute didn't work.</releaseNotes>
     <copyright>SharpCrafters s.r.o.</copyright>
     <tags>postsharp ilweaving costura ilrepack ilmerge assembly</tags>
     <dependencies>
