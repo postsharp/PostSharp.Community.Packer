@@ -20,7 +20,7 @@ If you use this add-in, instead those two DLLs will be embedded into `MyProject.
 1. Install the NuGet package: `PM> Install-Package PostSharp.Community.Packer`
 2. Get a free PostSharp Community license at https://www.postsharp.net/essentials
 3. When you compile for the first time, you'll be asked to enter the license key.
-4. Add `[assembly: Packer]` somewhere in your code.
+4. Add `[assembly: Packer]` into the beginning of one of your source files.
 
 You can then distribute just the main output assembly file. It will be enough.
 
