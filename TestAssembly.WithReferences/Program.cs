@@ -2,6 +2,7 @@
 using PostSharp.Community.Packer;
 using Soothsilver.Random;
 using System;
+using System.Diagnostics;
 using Xunit;
 
 [assembly: Packer(LoadAtModuleInit = true, ExcludeAssemblies = new string[] { "nonexistent-assembly" })]
@@ -12,8 +13,11 @@ namespace TestAssembly.WithReferences
     {
         public static void Main(string[] args)
         {
-            //Debugger.Launch();
+            Debugger.Launch();
+            Debugger.Break();
+
             Delay();
+            Console.ReadLine();
         }
 
         private static void Delay()

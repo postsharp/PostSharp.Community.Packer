@@ -16,8 +16,8 @@ namespace PostSharp.Community.Packer.Tests
         [Fact]
         public void TestTestAssemblyWithReferences()
         {
-            var folder = @"..\..\..\..\TestAssembly.WithReferences\bin\" + ConfigFolder;
-            var filename = "TestAssembly.WithReferences.exe";
+            const string folder = @"..\..\..\..\TestAssembly.WithReferences\bin\" + ConfigFolder;
+            const string filename = "TestAssembly.WithReferences.exe";
             DeleteAllButOne(folder, filename);
             var p = Process.Start(Path.Combine(folder, filename));
             Assert.True(p.WaitForExit(5000));
