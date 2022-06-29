@@ -33,11 +33,11 @@ namespace PostSharp.Community.Packer.Weaver
 
         private bool FindInitializeCalls(Project project, AssemblyLoaderInfo assemblyLoaderInfo)
         {
-            INamedType packerUtilityType = (INamedType)project.Module.FindType(typeof(PackerUtility));
-            MethodDefDeclaration packerUtilityInitialize =
+            var packerUtilityType = (INamedType)project.Module.FindType(typeof(PackerUtility));
+            var packerUtilityInitialize =
                 project.Module.FindMethod(packerUtilityType, "Initialize").GetMethodDefinition();
-            Sdk.CodeWeaver.Weaver weaver = new Sdk.CodeWeaver.Weaver(project);
-            ReplacePackerUtilityInitializeAdvice replacingAdvice = new ReplacePackerUtilityInitializeAdvice(assemblyLoaderInfo.AttachMethod);
+            var weaver = new Sdk.CodeWeaver.Weaver(project);
+            var replacingAdvice = new ReplacePackerUtilityInitializeAdvice(assemblyLoaderInfo.AttachMethod);
             weaver.AddMethodLevelAdvice(replacingAdvice, null,
                 JoinPointKinds.InsteadOfCall, new[] { packerUtilityInitialize });
             weaver.Weave();

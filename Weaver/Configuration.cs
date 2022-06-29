@@ -8,8 +8,8 @@ namespace PostSharp.Community.Packer.Weaver
     {
         public static PackerAttribute Read(IAnnotationInstance annotation)
         {
-            PackerAttribute config = new PackerAttribute();
-            MemberValuePairCollection namedArguments = annotation.Value.NamedArguments;
+            var config = new PackerAttribute();
+            var namedArguments = annotation.Value.NamedArguments;
 
             config.DisableCleanup = namedArguments.GetSafeBool(nameof(PackerAttribute.DisableCleanup), false);
             config.DisableCompression = namedArguments.GetSafeBool(nameof(PackerAttribute.DisableCompression), false);

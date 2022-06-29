@@ -34,7 +34,7 @@ namespace PostSharp.Community.Packer.Weaver
 
         public void EmbedResources(PackerAttribute config, string[] referenceCopyLocalPaths, Checksums checksums)
         {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             cachePath = tempDirectory; //  Path.Combine(Path.GetDirectoryName(AssemblyFilePath), "Costura");
             Directory.CreateDirectory(cachePath);
@@ -290,7 +290,7 @@ disableCleanup: {disableCleanup}");
             var cacheFile = Path.Combine(cachePath, $"{checksum}.{resourceName}");
             var memoryStream = BuildMemoryStream(fullPath, compress, cacheFile);
             streams.Add(memoryStream);
-            ManifestResourceDeclaration resource = new ManifestResourceDeclaration
+            var resource = new ManifestResourceDeclaration
             {
                 Name = resourceName,
                 IsPublic = false

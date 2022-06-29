@@ -21,7 +21,7 @@ namespace PostSharp.Community.Packer.Weaver
         public void FillInStaticConstructor(bool createTemporaryAssemblies, string[] preloadOrder, string resourcesHash, Checksums checksums)
         {
             var loaderMethod = info.StaticConstructorMethod;
-            InstructionReader reader = loaderMethod.MethodBody.CreateInstructionReader();
+            var reader = loaderMethod.MethodBody.CreateInstructionReader();
             reader.EnterInstructionBlock(loaderMethod.MethodBody.RootInstructionBlock);
             reader.EnterInstructionSequence(loaderMethod.MethodBody.RootInstructionBlock.LastInstructionSequence);
             while (reader.ReadInstruction())
@@ -37,7 +37,7 @@ namespace PostSharp.Community.Packer.Weaver
                 reader.CurrentInstructionBlock.AddInstructionSequence(null, NodePosition.Before,
                     reader.CurrentInstructionSequence);
 
-            InstructionWriter writer = InstructionWriter.GetInstance();
+            var writer = InstructionWriter.GetInstance();
             writer.AttachInstructionSequence(newSequence);
             var orderedResources = preloadOrder
                 .Join(this.manifest.Resources, p => p.ToLowerInvariant(),

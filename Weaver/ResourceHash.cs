@@ -14,7 +14,7 @@ namespace PostSharp.Community.Packer.Weaver
                 .Where(r => r.Name.StartsWith("costura"))
                 .Select(r => r.ContentStreamProvider())
                 .ToArray();
-            ConcatenatedStream allStream = new ConcatenatedStream(data);
+            var allStream = new ConcatenatedStream(data);
 
             using (var md5 = MD5.Create())
             {

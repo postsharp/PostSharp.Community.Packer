@@ -7,7 +7,7 @@ namespace PostSharp.Community.Packer.Weaver
     {
         public Assets(ModuleDeclaration module)
         {
-            INamedType dictionary = (INamedType)module.FindType(typeof(Dictionary<,>));
+            var dictionary = (INamedType)module.FindType(typeof(Dictionary<,>));
             DictionaryOfStringOfStringAdd = module.FindMethod(dictionary, "Add").GetGenericInstance(
                 new GenericMap(module, new List<ITypeSignature>
                 {
@@ -15,7 +15,7 @@ namespace PostSharp.Community.Packer.Weaver
                     module.Cache.GetIntrinsic(IntrinsicType.String)
                 }));
 
-            INamedType list = (INamedType)module.FindType(typeof(List<>));
+            var list = (INamedType)module.FindType(typeof(List<>));
             ListOfStringAdd = module.FindMethod(list, "Add").GetGenericInstance(
                 new GenericMap(module, new List<ITypeSignature>
                 {

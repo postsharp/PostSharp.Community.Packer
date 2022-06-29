@@ -12,13 +12,13 @@ namespace PostSharp.Community.Packer.Weaver
 
         public static string[] GetSafeStringArray(this MemberValuePairCollection collection, string name)
         {
-            object array = collection[name]?.Value.Value;
+            var array = collection[name]?.Value.Value;
 
             // Even though only string[] array are legal in attribute properties, the collection provides them to us
             // as object arrays so we need to convert:
             if (array is object[] objects)
             {
-                string[] converted = new string[objects.Length];
+                var converted = new string[objects.Length];
                 Array.Copy(objects, converted, objects.Length);
                 array = converted;
             }

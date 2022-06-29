@@ -18,7 +18,7 @@ namespace PostSharp.Community.Packer.Weaver
                                                             bool hasUnmanaged,
                                                             ModuleDeclaration module)
         {
-            AssemblyLoaderInfo info = new AssemblyLoaderInfo();
+            var info = new AssemblyLoaderInfo();
             TypeDefDeclaration sourceType;
             if (createTemporaryAssemblies)
             {

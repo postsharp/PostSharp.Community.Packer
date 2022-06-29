@@ -16,35 +16,35 @@ namespace PostSharp.Community.Packer.Weaver
             // Find configuration:
             var annotations =
                 annotationsService.GetAnnotationsOfType(typeof(PackerAttribute), false, true);
-            PackerAttribute config = new PackerAttribute();
+            var config = new PackerAttribute();
             if (annotations.MoveNext())
             {
                 config = Configuration.Read(annotations.Current);
             }
 
             // Find gatherable assemblies:
-            string[] paths = Project.Properties["ReferenceCopyLocalPaths"]?.Split('|') ?? new string[0];
+            var paths = Project.Properties["ReferenceCopyLocalPaths"]?.Split('|') ?? new string[0];
 
-            AssemblyManifestDeclaration manifest = Project.Module.AssemblyManifest;
+            var manifest = Project.Module.AssemblyManifest;
 
             // I have no idea what this is doing:
             ResourceCaseFixer.FixResourceCase(manifest);
 
             // Embed resources:
             var checksums = new Checksums();
-            bool unmanagedFromProcessor = NativeResourcesProcessor.ProcessNativeResources(manifest, !config.DisableCompression, checksums);
+            var unmanagedFromProcessor = NativeResourcesProcessor.ProcessNativeResources(manifest, !config.DisableCompression, checksums);
             var resourceEmbedder = new ResourceEmbedder(manifest);
             resourceEmbedder.EmbedResources(config, paths, checksums);
-            bool unmanagedFromEmbedder = resourceEmbedder.HasUnmanaged;
+            var unmanagedFromEmbedder = resourceEmbedder.HasUnmanaged;
 
             // Load references:
             var assets = new Assets(Project.Module);
-            AssemblyLoaderInfo info = AssemblyLoaderInfo.LoadAssemblyLoader(config.CreateTemporaryAssemblies,
+            var info = AssemblyLoaderInfo.LoadAssemblyLoader(config.CreateTemporaryAssemblies,
                 unmanagedFromEmbedder || unmanagedFromProcessor,
                 Project.Module);
 
             // Alter code:
-            string resourcesHash = ResourceHash.CalculateHash(manifest);
+            var resourcesHash = ResourceHash.CalculateHash(manifest);
             new AttachCallSynthesis().SynthesizeCallToAttach(config, Project, info);
             new ResourceNameFinder(info, manifest, assets).FillInStaticConstructor(
                 config.CreateTemporaryAssemblies,

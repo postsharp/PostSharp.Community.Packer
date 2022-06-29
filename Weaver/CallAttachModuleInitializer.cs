@@ -21,7 +21,7 @@ namespace PostSharp.Community.Packer.Weaver
 
         public void Emit(InstructionWriter writer, InstructionBlock block, TypeInitializationClientScopes scope)
         {
-            InstructionSequence sequence = block.AddInstructionSequence();
+            var sequence = block.AddInstructionSequence();
             writer.AttachInstructionSequence(sequence);
             writer.EmitInstructionMethod(OpCodeNumber.Call, attachMethod);
             writer.DetachInstructionSequence();

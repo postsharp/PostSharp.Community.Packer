@@ -23,7 +23,7 @@ namespace PostSharp.Community.Packer.Weaver
 
         public void Weave(WeavingContext context, InstructionBlock block)
         {
-            InstructionWriter iw = context.InstructionWriter;
+            var iw = context.InstructionWriter;
             iw.AttachInstructionSequence(block.AddInstructionSequence());
             iw.EmitInstructionMethod(OpCodeNumber.Call, methodToCall);
             iw.DetachInstructionSequence();

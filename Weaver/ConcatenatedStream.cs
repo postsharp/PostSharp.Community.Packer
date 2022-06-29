@@ -57,11 +57,11 @@ namespace PostSharp.Community.Packer.Weaver
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            int totalBytesRead = 0;
+            var totalBytesRead = 0;
 
             while (count > 0 && streams.Count > 0)
             {
-                int bytesRead = streams.Peek().Read(buffer, offset, count);
+                var bytesRead = streams.Peek().Read(buffer, offset, count);
                 if (bytesRead == 0)
                 {
                     streams.Dequeue();
@@ -78,7 +78,7 @@ namespace PostSharp.Community.Packer.Weaver
 
         public void ResetAllToZero()
         {
-            foreach (Stream stream in allStreams)
+            foreach (var stream in allStreams)
             {
                 stream.Position = 0;
             }

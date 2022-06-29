@@ -15,7 +15,7 @@ namespace PostSharp.Community.Packer.Weaver
         {
             var unprocessedNameMatch = new Regex(@"^(.*\.)?costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             var processedNameMatch = new Regex(@"^costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            bool hasUnmanaged = false;
+            var hasUnmanaged = false;
 
             foreach (var resource in manifest.Resources)
             {

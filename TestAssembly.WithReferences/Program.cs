@@ -26,8 +26,8 @@ namespace TestAssembly.WithReferences
     {
         public static void Stuff()
         {
-            string srls = JsonConvert.SerializeObject(new string[] { "he", "ha" });
-            string r = srls + R.Next(0, 1).ToString();
+            var srls = JsonConvert.SerializeObject(new string[] { "he", "ha" });
+            var r = srls + R.Next(0, 1).ToString();
             Assert.Equal(@"[""he"",""ha""]0", r);
             Console.WriteLine("This is still working: " + r);
         }
