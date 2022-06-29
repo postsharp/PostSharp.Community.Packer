@@ -5,7 +5,7 @@ using Xunit;
 
 namespace PostSharp.Community.Packer.Tests
 {
-    public class BasicTest
+    public class BasicTests
     {
 #if DEBUG
         private const string ConfigFolder = "Debug";
