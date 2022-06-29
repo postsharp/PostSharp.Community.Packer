@@ -19,6 +19,8 @@ namespace PostSharp.Community.Packer.Weaver
                                                             ModuleDeclaration module)
         {
             var info = new AssemblyLoaderInfo();
+            if (module == null) return info;    /* cannot do anything if module is null */
+
             TypeDefDeclaration sourceType;
             if (createTemporaryAssemblies)
             {
@@ -46,6 +48,7 @@ namespace PostSharp.Community.Packer.Weaver
             info.Preload64ListField = sourceType.FindField("preload64List")?.Field;
             info.Md5HashField = sourceType.FindField("md5Hash")?.Field;
             info.ChecksumsField = sourceType.FindField("checksums")?.Field;
+
             return info;
         }
     }

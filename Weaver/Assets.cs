@@ -1,4 +1,5 @@
 ﻿using PostSharp.Sdk.CodeModel;
+using System;
 using System.Collections.Generic;
 
 namespace PostSharp.Community.Packer.Weaver
@@ -7,20 +8,43 @@ namespace PostSharp.Community.Packer.Weaver
     {
         public Assets(ModuleDeclaration module)
         {
+            if (module == null) throw new ArgumentNullException(nameof(module));
+
             var dictionary = (INamedType)module.FindType(typeof(Dictionary<,>));
-            DictionaryOfStringOfStringAdd = module.FindMethod(dictionary, "Add").GetGenericInstance(
-                new GenericMap(module, new List<ITypeSignature>
-                {
-                    module.Cache.GetIntrinsic(IntrinsicType.String),
-                    module.Cache.GetIntrinsic(IntrinsicType.String)
-                }));
+            DictionaryOfStringOfStringAdd = module.FindMethod(dictionary, "Add")
+                                                  .GetGenericInstance(
+                                                      new GenericMap(
+                                                          module,
+                                                          new List<
+                                                              ITypeSignature>
+                                                          {
+                                                              module.Cache
+                                                                  .GetIntrinsic(
+                                                                      IntrinsicType
+                                                                          .String
+                                                                  ),
+                                                              module.Cache
+                                                                  .GetIntrinsic(
+                                                                      IntrinsicType
+                                                                          .String
+                                                                  )
+                                                          }
+                                                      )
+                                                  );
 
             var list = (INamedType)module.FindType(typeof(List<>));
-            ListOfStringAdd = module.FindMethod(list, "Add").GetGenericInstance(
-                new GenericMap(module, new List<ITypeSignature>
-                {
-                    module.Cache.GetIntrinsic(IntrinsicType.String)
-                }));
+            ListOfStringAdd = module.FindMethod(list, "Add")
+                                    .GetGenericInstance(
+                                        new GenericMap(
+                                            module,
+                                            new List<ITypeSignature>
+                                            {
+                                                module.Cache.GetIntrinsic(
+                                                    IntrinsicType.String
+                                                )
+                                            }
+                                        )
+                                    );
         }
 
         public IMethod DictionaryOfStringOfStringAdd { get; }
