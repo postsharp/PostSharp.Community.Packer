@@ -1,10 +1,8 @@
-using System;
 using PostSharp.Extensibility;
+using System;
 
 namespace PostSharp.Community.Packer
 {
-    
-   
     /// <summary>
     /// Add <c>[assembly: Packer]</c> anywhere in your source code to ensure that all references are packed into
     /// your main output assembly.
@@ -14,60 +12,25 @@ namespace PostSharp.Community.Packer
     public class PackerAttribute : Attribute
     {
         /// <summary>
-        /// Returns true if all assemblies except excluded assemblies should be embedded. If this is false,
-        /// then only assemblies specifically included should be embedded.
-        /// </summary>
-        public bool OptOut => IncludeAssemblies == null || IncludeAssemblies.Length == 0;
-        
-        /// <summary>
-        /// If true, then .pdb files are also embedded. Default true.
-        /// </summary>
-        public bool IncludeDebugSymbols { get;set; }
-        
-        /// <summary>
-        /// If true, then the assemblies embedded into the main assembly won't be compressed. Default false ("do compress").
-        /// </summary>
-        public bool DisableCompression { get;set; }
-        
-        /// <summary>
-        /// This option doesn't work. If it did, it would control whether
-        /// embedded assemblies are placed in the output folder anyway, even
-        /// though they aren't necessary anymore.
-        /// </summary>
-        public bool DisableCleanup { get;set; }
-        
-        /// <summary>
-        /// If true, then Packer will bootstrap itself in your assembly's module initializer and you don't need to
-        /// call <see cref="PackerUtility.Initialize"/>. Default true ("load automatically").
-        /// </summary>
-        public bool LoadAtModuleInit { get;set; }
-        
-        /// <summary>
         /// This will copy embedded files to disk before loading them into
         /// memory. This is helpful for some scenarios that expected an
         /// assembly to be loaded from a physical file. For example, if some
         /// code checks the assembly's assembly location. Default false.
         /// </summary>
-        public bool CreateTemporaryAssemblies { get; set;  }
-        
+        public bool CreateTemporaryAssemblies { get; set; }
+
         /// <summary>
-        /// This add-in will by default use assemblies with a name
-        /// like 'resources.dll' as a satellite resource and prepend
-        /// the output path. This flag disables that behavior.
-        /// Be advised, that DLL project assembly names ending
-        /// with '.resources' (resulting in *.resources.dll) will
-        /// lead to errors when this flag set to false. Default false.
+        /// This option doesn't work. If it did, it would control whether
+        /// embedded assemblies are placed in the output folder anyway, even
+        /// though they aren't necessary anymore.
         /// </summary>
-        public bool IgnoreSatelliteAssemblies { get; set;  }
-        
+        public bool DisableCleanup { get; set; }
+
         /// <summary>
-        /// A list of assembly names to embed. Do not include .exe or .dll
-        /// in the names. Can use wildcards at the end of the name for
-        /// partial matching. If you don't set this, all Copy Local references
-        /// are embedded.
+        /// If true, then the assemblies embedded into the main assembly won't be compressed. Default false ("do compress").
         /// </summary>
-        public string[] IncludeAssemblies { get; set; }
-        
+        public bool DisableCompression { get; set; }
+
         /// <summary>
         /// A list of assembly names to exclude from embedding.
         /// Can use wildcards for partial assembly name matching.
@@ -77,19 +40,42 @@ namespace PostSharp.Community.Packer
         /// Do not include .exe or .dll in the names.
         /// </summary>
         public string[] ExcludeAssemblies { get; set; }
-        
+
         /// <summary>
-        /// Mixed-mode assemblies cannot be loaded the same way
-        /// as managed assemblies. Use this property for those assemblies instead.
+        /// This add-in will by default use assemblies with a name
+        /// like 'resources.dll' as a satellite resource and prepend
+        /// the output path. This flag disables that behavior.
+        /// Be advised, that DLL project assembly names ending
+        /// with '.resources' (resulting in *.resources.dll) will
+        /// lead to errors when this flag set to false. Default false.
         /// </summary>
-        public string[] Unmanaged32Assemblies { get; set;}
-        
+        public bool IgnoreSatelliteAssemblies { get; set; }
+
         /// <summary>
-        /// Mixed-mode assemblies cannot be loaded the same way
-        /// as managed assemblies. Use this property for those assemblies instead.
+        /// A list of assembly names to embed. Do not include .exe or .dll
+        /// in the names. Can use wildcards at the end of the name for
+        /// partial matching. If you don't set this, all Copy Local references
+        /// are embedded.
         /// </summary>
-        public string[] Unmanaged64Assemblies { get; set;}
-        
+        public string[] IncludeAssemblies { get; set; }
+
+        /// <summary>
+        /// If true, then .pdb files are also embedded. Default true.
+        /// </summary>
+        public bool IncludeDebugSymbols { get; set; }
+
+        /// <summary>
+        /// If true, then Packer will bootstrap itself in your assembly's module initializer and you don't need to
+        /// call <see cref="PackerUtility.Initialize"/>. Default true ("load automatically").
+        /// </summary>
+        public bool LoadAtModuleInit { get; set; }
+
+        /// <summary>
+        /// Returns true if all assemblies except excluded assemblies should be embedded. If this is false,
+        /// then only assemblies specifically included should be embedded.
+        /// </summary>
+        public bool OptOut => IncludeAssemblies == null || IncludeAssemblies.Length == 0;
+
         /// <summary>
         /// Native libraries can be loaded by this add-in automatically.
         /// To include a native library include it in your project as an
@@ -100,5 +86,17 @@ namespace PostSharp.Community.Packer
         /// from disk mixed mode assemblies are also preloaded.
         /// </summary>
         public string[] PreloadOrder { get; set; }
+
+        /// <summary>
+        /// Mixed-mode assemblies cannot be loaded the same way
+        /// as managed assemblies. Use this property for those assemblies instead.
+        /// </summary>
+        public string[] Unmanaged32Assemblies { get; set; }
+
+        /// <summary>
+        /// Mixed-mode assemblies cannot be loaded the same way
+        /// as managed assemblies. Use this property for those assemblies instead.
+        /// </summary>
+        public string[] Unmanaged64Assemblies { get; set; }
     }
 }

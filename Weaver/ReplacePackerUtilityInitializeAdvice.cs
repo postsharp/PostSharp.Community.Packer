@@ -11,7 +11,11 @@ namespace PostSharp.Community.Packer.Weaver
         {
             this.methodToCall = methodToCall;
         }
-        
+
+        public int Priority => 0;
+
+        public bool ReplacedAtLeastOneCall { get; private set; }
+
         public bool RequiresWeave(WeavingContext context)
         {
             return true;
@@ -25,8 +29,5 @@ namespace PostSharp.Community.Packer.Weaver
             iw.DetachInstructionSequence();
             ReplacedAtLeastOneCall = true;
         }
-
-        public int Priority => 0;
-        public bool ReplacedAtLeastOneCall { get; private set; }
     }
 }

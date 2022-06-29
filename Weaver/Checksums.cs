@@ -2,15 +2,15 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
     public class Checksums
     {
-        readonly Dictionary<string, string> checksums = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> checksums = new Dictionary<string, string>();
 
         public IReadOnlyDictionary<string, string> AllChecksums => checksums;
+
         public static string CalculateChecksum(string filename)
         {
             using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

@@ -1,7 +1,8 @@
-﻿using System;
-using PostSharp.Community.Packer;
+﻿using PostSharp.Community.Packer;
+using System;
 
 [assembly: Packer]
+
 namespace Tests.WPF
 {
     /// <summary>

@@ -1,23 +1,21 @@
-using PostSharp.Aspects.Advices;
 using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
     public class AssemblyLoaderInfo
     {
+        public FieldDefDeclaration AssemblyNamesField { get; private set; }
         public MethodDefDeclaration AttachMethod { get; private set; }
-        public MethodDefDeclaration StaticConstructorMethod { get; private set;}
-        
-        public FieldDefDeclaration Md5HashField { get; private set;}
-        public FieldDefDeclaration AssemblyNamesField { get; private set;}
-        public FieldDefDeclaration SymbolNamesField { get; private set;}
-        public FieldDefDeclaration PreloadListField { get; private set;}
-        public FieldDefDeclaration Preload32ListField { get;private set; }
-        public FieldDefDeclaration Preload64ListField { get;private set; }
-        public FieldDefDeclaration ChecksumsField { get;private set; }
+        public FieldDefDeclaration ChecksumsField { get; private set; }
+        public FieldDefDeclaration Md5HashField { get; private set; }
+        public FieldDefDeclaration Preload32ListField { get; private set; }
+        public FieldDefDeclaration Preload64ListField { get; private set; }
+        public FieldDefDeclaration PreloadListField { get; private set; }
+        public MethodDefDeclaration StaticConstructorMethod { get; private set; }
+        public FieldDefDeclaration SymbolNamesField { get; private set; }
 
-        public static AssemblyLoaderInfo LoadAssemblyLoader(bool createTemporaryAssemblies, 
-                                                            bool hasUnmanaged, 
+        public static AssemblyLoaderInfo LoadAssemblyLoader(bool createTemporaryAssemblies,
+                                                            bool hasUnmanaged,
                                                             ModuleDeclaration module)
         {
             AssemblyLoaderInfo info = new AssemblyLoaderInfo();
@@ -37,7 +35,7 @@ namespace PostSharp.Community.Packer.Weaver
                 sourceType = module.FindType("PostSharp.Community.Packer.Templates.ILTemplate")
                     .GetTypeDefinition();
             }
-            
+
             info.AttachMethod = module.FindMethod(sourceType, "Attach").GetMethodDefinition();
             info.StaticConstructorMethod = module.FindMethod(sourceType, ".cctor").GetMethodDefinition();
 

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using PostSharp.Sdk.CodeModel;
+﻿using PostSharp.Sdk.CodeModel;
 using PostSharp.Sdk.Collections;
+using System;
+using System.Linq;
 
 namespace PostSharp.Community.Packer.Weaver
 {
     public class ResourceNameFinder
     {
+        private readonly Assets assets;
         private readonly AssemblyLoaderInfo info;
         private readonly AssemblyManifestDeclaration manifest;
-        private readonly Assets assets;
 
         public ResourceNameFinder(AssemblyLoaderInfo info, AssemblyManifestDeclaration manifest, Assets assets)
         {
@@ -18,7 +17,7 @@ namespace PostSharp.Community.Packer.Weaver
             this.manifest = manifest;
             this.assets = assets;
         }
-        
+
         public void FillInStaticConstructor(bool createTemporaryAssemblies, string[] preloadOrder, string resourcesHash, Checksums checksums)
         {
             var loaderMethod = info.StaticConstructorMethod;
@@ -37,7 +36,7 @@ namespace PostSharp.Community.Packer.Weaver
             var newSequence =
                 reader.CurrentInstructionBlock.AddInstructionSequence(null, NodePosition.Before,
                     reader.CurrentInstructionSequence);
-            
+
             InstructionWriter writer = InstructionWriter.GetInstance();
             writer.AttachInstructionSequence(newSequence);
             var orderedResources = preloadOrder
@@ -51,13 +50,13 @@ namespace PostSharp.Community.Packer.Weaver
                 .Union(this.manifest.Resources.OrderBy(r => r.Name))
                 .Where(r => r.Name.StartsWith("costura", StringComparison.OrdinalIgnoreCase))
                 .Select(r => r.Name);
-        
+
             foreach (var resource in orderedResources)
             {
                 var parts = resource.Split('.');
-        
+
                 GetNameAndExt(parts, out var name, out var ext);
-        
+
                 if (string.Equals(parts[0], "costura", StringComparison.OrdinalIgnoreCase))
                 {
                     if (createTemporaryAssemblies)
@@ -102,25 +101,25 @@ namespace PostSharp.Community.Packer.Weaver
 
             writer.DetachInstructionSequence();
         }
-        
-        static void GetNameAndExt(string[] parts, out string name, out string ext)
+
+        private static void GetNameAndExt(string[] parts, out string name, out string ext)
         {
             var isCompressed = string.Equals(parts[parts.Length - 1], "compressed", StringComparison.OrdinalIgnoreCase);
-        
+
             ext = parts[parts.Length - (isCompressed ? 2 : 1)];
-        
+
             name = string.Join(".", parts.Skip(1).Take(parts.Length - (isCompressed ? 3 : 2)));
         }
-        
-        void AddToDictionary(InstructionWriter writer, FieldDefDeclaration field, string key, string name)
+
+        private void AddToDictionary(InstructionWriter writer, FieldDefDeclaration field, string key, string name)
         {
             writer.EmitInstructionField(OpCodeNumber.Ldsfld, field);
             writer.EmitInstructionString(OpCodeNumber.Ldstr, key);
             writer.EmitInstructionString(OpCodeNumber.Ldstr, name);
             writer.EmitInstructionMethod(OpCodeNumber.Callvirt, assets.DictionaryOfStringOfStringAdd);
         }
-        
-        void AddToList(InstructionWriter writer, FieldDefDeclaration field, string name)
+
+        private void AddToList(InstructionWriter writer, FieldDefDeclaration field, string name)
         {
             writer.EmitInstructionField(OpCodeNumber.Ldsfld, field);
             writer.EmitInstructionString(OpCodeNumber.Ldstr, name);

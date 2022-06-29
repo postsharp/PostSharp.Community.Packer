@@ -7,10 +7,10 @@ namespace PostSharp.Community.Packer.Weaver
     /// <summary>
     /// Multiple streams rolled into one. Read-only. Comes from https://stackoverflow.com/a/3879231/1580088.
     /// </summary>
-    class ConcatenatedStream : Stream
+    internal class ConcatenatedStream : Stream
     {
-        readonly Queue<Stream> streams;
         private readonly Stream[] allStreams;
+        private readonly Queue<Stream> streams;
 
         public ConcatenatedStream(Stream[] streams)
         {
@@ -23,14 +23,38 @@ namespace PostSharp.Community.Packer.Weaver
             get { return true; }
         }
 
-        public void ResetAllToZero()
+        public override bool CanSeek
         {
-            foreach (Stream stream in allStreams)
+            get { return false; }
+        }
+
+        public override bool CanWrite
+        {
+            get { return false; }
+        }
+
+        public override long Length
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override long Position
+        {
+            get
             {
-                stream.Position = 0;
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
             }
         }
-        
+
+        public override void Flush()
+        {
+            throw new NotImplementedException();
+        }
+
         public override int Read(byte[] buffer, int offset, int count)
         {
             int totalBytesRead = 0;
@@ -52,35 +76,11 @@ namespace PostSharp.Community.Packer.Weaver
             return totalBytesRead;
         }
 
-        public override bool CanSeek
+        public void ResetAllToZero()
         {
-            get { return false; }
-        }
-
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
-
-        public override void Flush()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override long Length
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override long Position
-        {
-            get
+            foreach (Stream stream in allStreams)
             {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
+                stream.Position = 0;
             }
         }
 

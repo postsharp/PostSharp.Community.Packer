@@ -7,11 +7,12 @@ namespace PostSharp.Community.Packer.Tests
 {
     public class BasicTest
     {
-        #if DEBUG
+#if DEBUG
         private const string ConfigFolder = "Debug";
-        #else
+#else
         private const string ConfigFolder = "Release";
-        #endif
+#endif
+
         [Fact]
         public void TestTestAssemblyWithReferences()
         {
@@ -22,6 +23,7 @@ namespace PostSharp.Community.Packer.Tests
             Assert.True(p.WaitForExit(5000));
             Assert.Equal(0, p.ExitCode);
         }
+
         [Fact]
         public void TestWPF()
         {

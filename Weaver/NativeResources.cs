@@ -1,8 +1,7 @@
-﻿using System;
+﻿using PostSharp.Sdk.CodeModel;
+using System;
 using System.IO.Compression;
-using System.Linq;
 using System.Text.RegularExpressions;
-using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
@@ -17,7 +16,7 @@ namespace PostSharp.Community.Packer.Weaver
             var unprocessedNameMatch = new Regex(@"^(.*\.)?costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             var processedNameMatch = new Regex(@"^costura(32|64)\.", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             bool hasUnmanaged = false;
-            
+
             foreach (var resource in manifest.Resources)
             {
                 var match = unprocessedNameMatch.Match(resource.Name);
@@ -31,7 +30,7 @@ namespace PostSharp.Community.Packer.Weaver
                 {
                     using (var stream = resource.ContentStreamProvider())
                     {
-                        if (compress && resource.Name.EndsWith(".compressed",StringComparison.OrdinalIgnoreCase))
+                        if (compress && resource.Name.EndsWith(".compressed", StringComparison.OrdinalIgnoreCase))
                         {
                             using (var compressStream = new DeflateStream(stream, CompressionMode.Decompress))
                             {

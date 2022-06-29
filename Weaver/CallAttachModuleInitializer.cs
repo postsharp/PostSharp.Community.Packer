@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using PostSharp.Sdk.AspectInfrastructure;
+﻿using PostSharp.Sdk.AspectInfrastructure;
 using PostSharp.Sdk.CodeModel;
-using PostSharp.Sdk.Collections;
+using System.Collections.Generic;
 
 namespace PostSharp.Community.Packer.Weaver
 {
@@ -14,13 +12,13 @@ namespace PostSharp.Community.Packer.Weaver
         {
             this.attachMethod = attachMethod;
         }
-        
-        public bool HasEffect(string effect) => true;
-
-        public string GetDisplayName() => "Calls the assembly loader's Attach method in the module initializer.";
 
         public IList<AspectDependency> Dependencies { get; } = new AspectDependency[0];
+
+        public bool IsBeforeFieldInitSupported => false;
+
         public bool IsCommutative => true;
+
         public void Emit(InstructionWriter writer, InstructionBlock block, TypeInitializationClientScopes scope)
         {
             InstructionSequence sequence = block.AddInstructionSequence();
@@ -29,6 +27,8 @@ namespace PostSharp.Community.Packer.Weaver
             writer.DetachInstructionSequence();
         }
 
-        public bool IsBeforeFieldInitSupported => false;
+        public string GetDisplayName() => "Calls the assembly loader's Attach method in the module initializer.";
+
+        public bool HasEffect(string effect) => true;
     }
 }

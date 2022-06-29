@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using PostSharp.Community.Packer;
-using PostSharp.Extensibility;
-using PostSharp.Reflection;
 using PostSharp.Sdk.CodeModel;
-using PostSharp.Sdk.CodeModel.TypeSignatures;
 using PostSharp.Sdk.Extensibility;
 using PostSharp.Sdk.Extensibility.Configuration;
 using PostSharp.Sdk.Extensibility.Tasks;
@@ -33,10 +26,10 @@ namespace PostSharp.Community.Packer.Weaver
             string[] paths = Project.Properties["ReferenceCopyLocalPaths"]?.Split('|') ?? new string[0];
 
             AssemblyManifestDeclaration manifest = Project.Module.AssemblyManifest;
-            
+
             // I have no idea what this is doing:
             ResourceCaseFixer.FixResourceCase(manifest);
-            
+
             // Embed resources:
             var checksums = new Checksums();
             bool unmanagedFromProcessor = NativeResourcesProcessor.ProcessNativeResources(manifest, !config.DisableCompression, checksums);
@@ -49,7 +42,7 @@ namespace PostSharp.Community.Packer.Weaver
             AssemblyLoaderInfo info = AssemblyLoaderInfo.LoadAssemblyLoader(config.CreateTemporaryAssemblies,
                 unmanagedFromEmbedder || unmanagedFromProcessor,
                 Project.Module);
-            
+
             // Alter code:
             string resourcesHash = ResourceHash.CalculateHash(manifest);
             new AttachCallSynthesis().SynthesizeCallToAttach(config, Project, info);

@@ -19,15 +19,21 @@ namespace PostSharp.Community.Packer.Weaver
             else if (!initialized)
             {
                 Message.Write(project.Module.Assembly.GetSystemAssembly(),
-                    SeverityType.Warning, 
+                    SeverityType.Warning,
                     "PACK01",
                     "The add-in was not initialized. Make sure LoadAtModuleInit=true or call PackerUtility.Initialize().");
             }
         }
 
-        bool FindInitializeCalls(Project project, AssemblyLoaderInfo assemblyLoaderInfo)
+        private void AddModuleInitializerCall(Project project, AssemblyLoaderInfo assemblyLoaderInfo)
         {
-            INamedType packerUtilityType = (INamedType) project.Module.FindType(typeof(PackerUtility));
+            var task = project.GetTask<AspectInfrastructureTask>();
+            task.TypeInitializationManager.RegisterClient(new CallAttachModuleInitializer(assemblyLoaderInfo.AttachMethod), TypeInitializationClientScopes.Module);
+        }
+
+        private bool FindInitializeCalls(Project project, AssemblyLoaderInfo assemblyLoaderInfo)
+        {
+            INamedType packerUtilityType = (INamedType)project.Module.FindType(typeof(PackerUtility));
             MethodDefDeclaration packerUtilityInitialize =
                 project.Module.FindMethod(packerUtilityType, "Initialize").GetMethodDefinition();
             Sdk.CodeWeaver.Weaver weaver = new Sdk.CodeWeaver.Weaver(project);
@@ -36,12 +42,6 @@ namespace PostSharp.Community.Packer.Weaver
                 JoinPointKinds.InsteadOfCall, new[] { packerUtilityInitialize });
             weaver.Weave();
             return replacingAdvice.ReplacedAtLeastOneCall;
-        }
-
-        void AddModuleInitializerCall(Project project, AssemblyLoaderInfo assemblyLoaderInfo)
-        {
-            var task = project.GetTask<AspectInfrastructureTask>();
-            task.TypeInitializationManager.RegisterClient(new CallAttachModuleInitializer(assemblyLoaderInfo.AttachMethod), TypeInitializationClientScopes.Module);
         }
     }
 }

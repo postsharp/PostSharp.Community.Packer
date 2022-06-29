@@ -1,9 +1,9 @@
-using System;
 using PostSharp.Sdk.CodeModel;
+using System;
 
 namespace PostSharp.Community.Packer.Weaver
 {
-    static class ResourceCaseFixer
+    internal static class ResourceCaseFixer
     {
         public static void FixResourceCase(AssemblyManifestDeclaration manifest)
         {

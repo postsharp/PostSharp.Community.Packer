@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace Tests.WPF
+﻿namespace Tests.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -12,6 +10,5 @@ namespace Tests.WPF
             InitializeComponent();
             this.Loaded += (sender, args) => { this.Close(); };
         }
-        
     }
 }

@@ -1,34 +1,45 @@
-﻿using System;
+﻿using PostSharp.Sdk.CodeModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using PostSharp.Community.Packer;
-using PostSharp.Sdk.CodeModel;
 
 namespace PostSharp.Community.Packer.Weaver
 {
     public class ResourceEmbedder : IDisposable
     {
         private readonly AssemblyManifestDeclaration manifest;
-        readonly List<Stream> streams = new List<Stream>();
-        string cachePath;
-        public bool HasUnmanaged { get; private set; }
+        private readonly List<Stream> streams = new List<Stream>();
+        private string cachePath;
 
         public ResourceEmbedder(AssemblyManifestDeclaration manifest)
         {
             this.manifest = manifest;
         }
 
+        public bool HasUnmanaged { get; private set; }
+
+        public void Dispose()
+        {
+            if (streams == null)
+            {
+                return;
+            }
+            foreach (var stream in streams)
+            {
+                stream.Dispose();
+            }
+        }
+
         public void EmbedResources(PackerAttribute config, string[] referenceCopyLocalPaths, Checksums checksums)
         {
-          
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             cachePath = tempDirectory; //  Path.Combine(Path.GetDirectoryName(AssemblyFilePath), "Costura");
             Directory.CreateDirectory(cachePath);
 
-            var onlyBinaries = referenceCopyLocalPaths.Where(x => x.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) 
+            var onlyBinaries = referenceCopyLocalPaths.Where(x => x.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
                                                                   || x.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)).ToArray();
 
             var disableCompression = config.DisableCompression;
@@ -95,7 +106,46 @@ namespace PostSharp.Community.Packer.Weaver
             }
         }
 
-        bool CompareAssemblyName(string matchText, string assemblyName)
+        private static MemoryStream BuildMemoryStream(string fullPath, bool compress, string cacheFile)
+        {
+            var memoryStream = new MemoryStream();
+
+            if (File.Exists(cacheFile))
+            {
+                using (var fileStream = File.Open(cacheFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    fileStream.CopyTo(memoryStream);
+                }
+            }
+            else
+            {
+                using (var cacheFileStream = File.Open(cacheFile, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
+                {
+                    using (var fileStream = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        if (compress)
+                        {
+                            using (var compressedStream = new DeflateStream(memoryStream, CompressionMode.Compress, true))
+                            {
+                                fileStream.CopyTo(compressedStream);
+                            }
+                        }
+                        else
+                        {
+                            fileStream.CopyTo(memoryStream);
+                        }
+                    }
+
+                    memoryStream.Position = 0;
+                    memoryStream.CopyTo(cacheFileStream);
+                }
+            }
+
+            memoryStream.Position = 0;
+            return memoryStream;
+        }
+
+        private bool CompareAssemblyName(string matchText, string assemblyName)
         {
             if (matchText.EndsWith("*") && matchText.Length > 1)
             {
@@ -105,7 +155,26 @@ namespace PostSharp.Community.Packer.Weaver
             return matchText.Equals(assemblyName, StringComparison.OrdinalIgnoreCase);
         }
 
-        IEnumerable<string> GetFilteredReferences(IEnumerable<string> onlyBinaries, PackerAttribute config)
+        private void Embed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup, Checksums checksums)
+        {
+            try
+            {
+                InnerEmbed(prefix, fullPath, compress, addChecksum, disableCleanup, checksums);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(
+                    innerException: exception,
+                    message: $@"Failed to embed.
+prefix: {prefix}
+fullPath: {fullPath}
+compress: {compress}
+addChecksum: {addChecksum}
+disableCleanup: {disableCleanup}");
+            }
+        }
+
+        private IEnumerable<string> GetFilteredReferences(IEnumerable<string> onlyBinaries, PackerAttribute config)
         {
             if (config.IncludeAssemblies.Any())
             {
@@ -126,7 +195,6 @@ namespace PostSharp.Community.Packer.Weaver
 
                 if (skippedAssemblies.Count > 0)
                 {
-
                     var splittedReferences = new string[0];// References.Split(';');
 
                     var hasErrors = false;
@@ -134,12 +202,12 @@ namespace PostSharp.Community.Packer.Weaver
                     foreach (var skippedAssembly in skippedAssemblies)
                     {
                         var fileName = (from splittedReference in splittedReferences
-                            where string.Equals(Path.GetFileNameWithoutExtension(splittedReference), skippedAssembly, StringComparison.InvariantCulture)
-                            select splittedReference).FirstOrDefault();
+                                        where string.Equals(Path.GetFileNameWithoutExtension(splittedReference), skippedAssembly, StringComparison.InvariantCulture)
+                                        select splittedReference).FirstOrDefault();
                         if (string.IsNullOrEmpty(fileName))
                         {
                             hasErrors = true;
-                          // TODO  LogError($"Assembly '{skippedAssembly}' cannot be found (not even as CopyLocal='false'), please update the configuration");
+                            // TODO  LogError($"Assembly '{skippedAssembly}' cannot be found (not even as CopyLocal='false'), please update the configuration");
                             continue;
                         }
 
@@ -185,25 +253,6 @@ namespace PostSharp.Community.Packer.Weaver
             }
         }
 
-        void Embed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup, Checksums checksums)
-        {
-            try
-            {
-                InnerEmbed(prefix, fullPath, compress, addChecksum, disableCleanup, checksums);
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(
-                    innerException: exception,
-                    message: $@"Failed to embed.
-prefix: {prefix}
-fullPath: {fullPath}
-compress: {compress}
-addChecksum: {addChecksum}
-disableCleanup: {disableCleanup}");
-            }
-        }
-
         private void InnerEmbed(string prefix, string fullPath, bool compress, bool addChecksum, bool disableCleanup, Checksums checksums)
         {
             if (!disableCleanup)
@@ -236,7 +285,7 @@ disableCleanup: {disableCleanup}");
                     return;
                 }
             }
-            
+
             var checksum = Checksums.CalculateChecksum(fullPath);
             var cacheFile = Path.Combine(cachePath, $"{checksum}.{resourceName}");
             var memoryStream = BuildMemoryStream(fullPath, compress, cacheFile);
@@ -249,62 +298,11 @@ disableCleanup: {disableCleanup}");
 
             resource.ContentStreamProvider = () => memoryStream;
 
-            manifest.Resources.Add( resource );
+            manifest.Resources.Add(resource);
 
             if (addChecksum)
             {
                 checksums.Add(resourceName, checksum);
-            }
-        }
-
-        static MemoryStream BuildMemoryStream(string fullPath, bool compress, string cacheFile)
-        {
-            var memoryStream = new MemoryStream();
-
-            if (File.Exists(cacheFile))
-            {
-                using (var fileStream = File.Open(cacheFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                    fileStream.CopyTo(memoryStream);
-                }
-            }
-            else
-            {
-                using (var cacheFileStream = File.Open(cacheFile, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
-                {
-                    using (var fileStream = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    {
-                        if (compress)
-                        {
-                            using (var compressedStream = new DeflateStream(memoryStream, CompressionMode.Compress, true))
-                            {
-                                fileStream.CopyTo(compressedStream);
-                            }
-                        }
-                        else
-                        {
-                            fileStream.CopyTo(memoryStream);
-                        }
-                    }
-
-                    memoryStream.Position = 0;
-                    memoryStream.CopyTo(cacheFileStream);
-                }
-            }
-
-            memoryStream.Position = 0;
-            return memoryStream;
-        }
-
-        public void Dispose()
-        {
-            if (streams == null)
-            {
-                return;
-            }
-            foreach (var stream in streams)
-            {
-                stream.Dispose();
             }
         }
     }
